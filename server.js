@@ -10,11 +10,15 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const MODEL = process.env.GEMINI_MODEL || "gemini-3.8-flash";
+const MODEL = process.env.GEMINI_MODEL || "gemini-3.5-flash-lite";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Cấu hình proxy cho Render, sửa lỗi express-rate-limit
+app.set("trust proxy", 1);
+
+// Khởi tạo Gemini
 const ai = process.env.GEMINI_API_KEY
   ? new GoogleGenAI({
       apiKey: process.env.GEMINI_API_KEY,
@@ -30,8 +34,10 @@ const ai = process.env.GEMINI_API_KEY
     })
   : null;
 
+// Middleware
 app.use(express.json({ limit: "30kb" }));
 
+// Giới hạn số lần gửi câu hỏi
 const chatLimiter = rateLimit({
   windowMs: 60 * 1000,
   limit: 10,
@@ -39,11 +45,29 @@ const chatLimiter = rateLimit({
   legacyHeaders: false
 });
 
+// Không cho truy cập trực tiếp các file cấu hình máy chủ
+app.use((req, res, next) => {
+  const blockedFiles = [
+    "/server.js",
+    "/package.json",
+    "/package-lock.json",
+    "/.gitignore"
+  ];
+
+  if (blockedFiles.includes(req.path)) {
+    return res.status(404).send("Không tìm thấy trang.");
+  }
+
+  next();
+});
+
+// Phục vụ giao diện website
 app.use(express.static(__dirname, {
   dotfiles: "ignore",
   index: "index.html"
 }));
 
+// Kiểm tra trạng thái máy chủ
 app.get("/api/health", (req, res) => {
   res.json({
     success: true,
@@ -54,6 +78,7 @@ app.get("/api/health", (req, res) => {
   });
 });
 
+// Chat với Gemini
 app.post("/api/chat", chatLimiter, async (req, res) => {
   try {
     if (!ai) {
@@ -63,7 +88,7 @@ app.post("/api/chat", chatLimiter, async (req, res) => {
       });
     }
 
-    const messages = req.body.messages;
+    const messages = req.body?.messages;
 
     if (!Array.isArray(messages) || messages.length === 0) {
       return res.status(400).json({
@@ -84,6 +109,7 @@ app.post("/api/chat", chatLimiter, async (req, res) => {
         parts: [{ text: m.content.trim().slice(0, 3000) }]
       }));
 
+    // Gemini yêu cầu nội dung bắt đầu bằng vai trò user
     while (contents.length && contents[0].role === "model") {
       contents.shift();
     }
@@ -149,17 +175,22 @@ app.post("/api/chat", chatLimiter, async (req, res) => {
       message = "Gemini phản hồi quá lâu. Bạn hãy thử lại sau.";
     }
 
-    return res.status(500).json({
+    const responseStatus = [400, 401, 403, 404, 429, 502, 503]
+      .includes(status) ? status : 500;
+
+    return res.status(responseStatus).json({
       success: false,
       error: message
     });
   }
 });
 
+// Trang không tồn tại
 app.use((req, res) => {
   res.status(404).send("Không tìm thấy trang.");
 });
 
+// Khởi chạy máy chủ
 app.listen(PORT, () => {
   console.log("================================");
   console.log("EDUSMART 12 - GEMINI AI");
