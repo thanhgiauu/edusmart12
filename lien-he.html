@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liên hệ | EduSmart 12</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="topbar">
+    <div class="container">
+        <span>🎓 EduSmart 12</span>
+        <span>Chúng tôi luôn lắng nghe ý kiến của bạn</span>
+    </div>
+</div>
+
+<header class="site-header">
+    <div class="container nav-wrap">
+
+        <a href="index.html" class="brand">
+            <span class="brand-mark">E12</span>
+            EduSmart 12
+        </a>
+
+        <button class="menu-toggle" data-menu-toggle>☰</button>
+
+        <nav class="nav-links" data-nav>
+            <a href="index.html">Trang chủ</a>
+            <a href="gioi-thieu.html">Giới thiệu</a>
+            <a href="hoc-lieu.html">Học liệu</a>
+            <a href="luyen-tap.html">Luyện tập</a>
+            <a href="ai-ho-tro.html">AI hỗ trợ</a>
+            <a href="lien-he.html">Liên hệ</a>
+        </nav>
+
+        <div class="nav-actions">
+            <a href="admin/login.html" class="btn btn-primary">Giáo viên</a>
+        </div>
+
+    </div>
+</header>
+
+<main>
+
+<section class="page-hero">
+    <div class="container">
+        <span class="eyebrow">CONTACT US</span>
+        <h1>Liên hệ với EduSmart 12</h1>
+        <p>Gửi câu hỏi, phản hồi hoặc đề xuất cải thiện website.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container content-layout">
+
+        <div class="card">
+
+            <h2>✉️ Gửi thông tin</h2>
+
+            <p class="small">
+                Vui lòng điền đầy đủ thông tin bên dưới.
+            </p>
+
+            <form id="feedbackForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Họ và tên</label>
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Nhập họ tên"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Nhập email"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Chủ đề</label>
+                        <select name="subject" required>
+                            <option value="">Chọn chủ đề</option>
+                            <option value="Học liệu">Học liệu</option>
+                            <option value="Luyện tập">Luyện tập</option>
+                            <option value="Lỗi website">Lỗi website</option>
+                            <option value="Góp ý">Góp ý chung</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Nội dung</label>
+                        <textarea
+                            name="message"
+                            rows="6"
+                            placeholder="Nhập nội dung liên hệ..."
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group full">
+                        <button type="submit" class="btn btn-primary">
+                            Gửi liên hệ
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>
+
+            <p id="feedbackMessage" aria-live="polite"></p>
+
+        </div>
+
+        <aside>
+
+            <div class="card">
+                <div class="card-icon">📍</div>
+                <h3>Thông tin dự án</h3>
+                <p>Website: EduSmart 12</p>
+                <p>Đơn vị: THPT Nhơn Trạch</p>
+                <p>Chủ đề: Website học tập thông minh</p>
+            </div>
+
+            <div class="card" style="margin-top:16px">
+                <div class="card-icon">💬</div>
+                <h3>Ý kiến của bạn</h3>
+                <p>
+                    Mọi đóng góp đều giúp website
+                    ngày càng hoàn thiện hơn.
+                </p>
+            </div>
+
+        </aside>
+
+    </div>
+</section>
+
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <h3>EduSmart 12</h3>
+        <p>Học tập dễ dàng - Tiến bộ mỗi ngày.</p>
+        <div class="copyright">
+            © <span data-year></span> EduSmart 12
+        </div>
+    </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

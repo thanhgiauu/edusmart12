@@ -1,0 +1,306 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kho học liệu | EduSmart 12</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div class="topbar">
+    <div class="container">
+        <span>🎓 EduSmart 12</span>
+        <span>Kho tri thức dành cho học sinh</span>
+    </div>
+</div>
+
+<header class="site-header">
+    <div class="container nav-wrap">
+
+        <a href="index.html" class="brand">
+            <span class="brand-mark">E12</span>
+            EduSmart 12
+        </a>
+
+        <button class="menu-toggle" data-menu-toggle>☰</button>
+
+        <nav class="nav-links" data-nav>
+            <a href="index.html">Trang chủ</a>
+            <a href="gioi-thieu.html">Giới thiệu</a>
+            <a href="hoc-lieu.html">Học liệu</a>
+            <a href="luyen-tap.html">Luyện tập</a>
+            <a href="ai-ho-tro.html">AI hỗ trợ</a>
+            <a href="lien-he.html">Liên hệ</a>
+        </nav>
+
+        <div class="nav-actions">
+            <a href="admin/login.html" class="btn btn-primary">
+                Giáo viên
+            </a>
+        </div>
+
+    </div>
+</header>
+
+<main>
+
+<section class="page-hero">
+    <div class="container">
+
+        <span class="eyebrow">THƯ VIỆN HỌC TẬP</span>
+
+        <h1>Kho học liệu EduSmart 12</h1>
+
+        <p>
+            Tìm kiếm tài liệu và khám phá kiến thức
+            theo từng môn học.
+        </p>
+
+    </div>
+</section>
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-head">
+            <h2>📚 Tài liệu học tập</h2>
+            <p>Chọn môn học hoặc nhập từ khóa để tìm nội dung.</p>
+        </div>
+
+        <div class="search-row">
+
+            <input
+                type="text"
+                id="resourceSearch"
+                data-resource-search
+                placeholder="🔎 Nhập tên tài liệu cần tìm..."
+            >
+
+            <select
+                id="resourceFilter"
+                data-resource-filter
+            >
+                <option value="all">Tất cả môn học</option>
+                <option value="toan">Toán học</option>
+                <option value="ly">Vật lí</option>
+                <option value="hoa">Hóa học</option>
+                <option value="sinh">Sinh học</option>
+                <option value="van">Ngữ văn</option>
+                <option value="tin">Tin học</option>
+                <option value="anh">Tiếng Anh</option>
+                <option value="dia">Địa lí</option>
+            </select>
+
+        </div>
+
+        <div class="grid grid-3">
+
+            <div class="card" data-resource-card data-subject="toan">
+                <div class="card-icon">📐</div>
+                <span class="tag">Toán học</span>
+                <h3>Hàm số và đạo hàm</h3>
+                <p>
+                    Tổng hợp kiến thức và các dạng bài
+                    về hàm số, đạo hàm.
+                </p>
+                <small class="small">Chuyên đề 01</small>
+            </div>
+
+            <div class="card" data-resource-card data-subject="toan">
+                <div class="card-icon">📊</div>
+                <span class="tag">Toán học</span>
+                <h3>Nguyên hàm và tích phân</h3>
+                <p>
+                    Các phương pháp tính nguyên hàm
+                    và tích phân cơ bản.
+                </p>
+                <small class="small">Chuyên đề 02</small>
+            </div>
+
+            <div class="card" data-resource-card data-subject="ly">
+                <div class="card-icon">⚡</div>
+                <span class="tag">Vật lí</span>
+                <h3>Dao động và sóng</h3>
+                <p>
+                    Tìm hiểu các đại lượng đặc trưng
+                    của dao động và sóng.
+                </p>
+                <small class="small">Chuyên đề 03</small>
+            </div>
+
+            <div class="card" data-resource-card data-subject="hoa">
+                <div class="card-icon">🧪</div>
+                <span class="tag">Hóa học</span>
+                <h3>Hóa học hữu cơ</h3>
+                <p>
+                    Tìm hiểu hợp chất hữu cơ,
+                    nhóm chức và phản ứng.
+                </p>
+                <small class="small">Chuyên đề 04</small>
+            </div>
+
+            <div class="card" data-resource-card data-subject="sinh">
+                <div class="card-icon">🧬</div>
+                <span class="tag">Sinh học</span>
+                <h3>Di truyền học</h3>
+                <p>
+                    Kiến thức về gen, mã di truyền
+                    và quy luật di truyền.
+                </p>
+                <small class="small">Chuyên đề 05</small>
+            </div>
+
+            <div class="card" data-resource-card data-subject="van">
+                <div class="card-icon">📚</div>
+                <span class="tag">Ngữ văn</span>
+                <h3>Nghị luận xã hội</h3>
+                <p>
+                    Phương pháp lập luận,
+                    phân tích và đưa dẫn chứng.
+                </p>
+                <small class="small">Chuyên đề 06</small>
+            </div>
+
+            <div class="card" data-resource-card data-subject="tin">
+                <div class="card-icon">💻</div>
+                <span class="tag">Tin học</span>
+                <h3>HTML cơ bản</h3>
+                <p>
+                    Tìm hiểu cấu trúc website
+                    và các thẻ HTML.
+                </p>
+                <small class="small">Chuyên đề 07</small>
+            </div>
+
+            <div class="card" data-resource-card data-subject="tin">
+                <div class="card-icon">🎨</div>
+                <span class="tag">Tin học</span>
+                <h3>CSS cơ bản</h3>
+                <p>
+                    Thiết kế màu sắc,
+                    bố cục và giao diện website.
+                </p>
+                <small class="small">Chuyên đề 08</small>
+            </div>
+
+            <div class="card" data-resource-card data-subject="anh">
+                <div class="card-icon">🇬🇧</div>
+                <span class="tag">Tiếng Anh</span>
+                <h3>Từ vựng tiếng Anh</h3>
+                <p>
+                    Học từ vựng theo chủ đề
+                    và cách sử dụng trong câu.
+                </p>
+                <small class="small">Chuyên đề 09</small>
+            </div>
+
+            <div class="card" data-resource-card data-subject="dia">
+                <div class="card-icon">🌏</div>
+                <span class="tag">Địa lí</span>
+                <h3>Kỹ năng khai thác Atlat</h3>
+                <p>
+                    Cách đọc bản đồ,
+                    biểu đồ và bảng số liệu.
+                </p>
+                <small class="small">Chuyên đề 10</small>
+            </div>
+
+            <div class="card" data-resource-card data-subject="all">
+                <div class="card-icon">🧠</div>
+                <span class="tag">Kỹ năng</span>
+                <h3>Phương pháp tự học</h3>
+                <p>
+                    Quản lý thời gian,
+                    lập kế hoạch và ghi nhớ.
+                </p>
+                <small class="small">Chuyên đề 11</small>
+            </div>
+
+            <div class="card" data-resource-card data-subject="all">
+                <div class="card-icon">🛡️</div>
+                <span class="tag">Kỹ năng số</span>
+                <h3>An toàn thông tin</h3>
+                <p>
+                    Bảo vệ tài khoản
+                    và thông tin cá nhân.
+                </p>
+                <small class="small">Chuyên đề 12</small>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="section alt">
+
+    <div class="container">
+
+        <div class="section-head">
+            <h2>🎬 Góc video học tập</h2>
+            <p>Không gian tham khảo video bài giảng.</p>
+        </div>
+
+        <div class="card">
+
+            <h3>Video học tập tham khảo</h3>
+
+            <p>
+                Giáo viên có thể bổ sung video bài giảng
+                phù hợp với nội dung chương trình.
+            </p>
+
+            <div class="notice">
+                Khu vực này đang chờ nhóm bổ sung
+                đường dẫn video phù hợp và ghi nguồn.
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+<footer class="footer">
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <div>
+                <h3>EduSmart 12</h3>
+                <p>Học tập dễ dàng - Tiến bộ mỗi ngày.</p>
+            </div>
+
+            <div>
+                <h4>Điều hướng</h4>
+                <a href="index.html">Trang chủ</a>
+                <a href="luyen-tap.html">Luyện tập</a>
+            </div>
+
+            <div>
+                <h4>Giáo viên</h4>
+                <a href="admin/login.html">Đăng nhập quản trị</a>
+            </div>
+
+        </div>
+
+        <div class="copyright">
+            © <span data-year></span> EduSmart 12
+        </div>
+
+    </div>
+
+</footer>
+
+<script src="js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,603 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EduSmart AI | Trợ lý học tập</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .ai-page {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .ai-intro {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .ai-intro h2 {
+            color: #102448;
+            font-size: 28px;
+        }
+
+        .ai-chat {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 35px rgba(0,0,0,.07);
+        }
+
+        .ai-chat-header {
+            background: linear-gradient(120deg,#102448,#2563eb);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .ai-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: rgba(255,255,255,.18);
+            display: grid;
+            place-items: center;
+            font-size: 27px;
+        }
+
+        .ai-chat-header h2 {
+            font-size: 19px;
+        }
+
+        .ai-chat-header p {
+            color: #dbeafe;
+            font-size: 12px;
+        }
+
+        .ai-header-actions {
+            margin-left: auto;
+        }
+
+        .ai-header-actions button {
+            background: rgba(255,255,255,.16);
+            color: white;
+            border: 1px solid rgba(255,255,255,.3);
+            border-radius: 9px;
+            padding: 9px 12px;
+            cursor: pointer;
+        }
+
+        .ai-messages {
+            height: 470px;
+            overflow-y: auto;
+            padding: 22px;
+            background: #f8faff;
+            display: flex;
+            flex-direction: column;
+            gap: 17px;
+        }
+
+        .ai-message {
+            max-width: 85%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .ai-message.user {
+            align-self: flex-end;
+            align-items: flex-end;
+        }
+
+        .ai-message.assistant {
+            align-self: flex-start;
+        }
+
+        .ai-message-name {
+            font-size: 11px;
+            color: #64748b;
+            font-weight: 700;
+        }
+
+        .ai-message-content {
+            padding: 13px 16px;
+            border-radius: 15px;
+            font-size: 14px;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            line-height: 1.8;
+        }
+
+        .ai-message.user .ai-message-content {
+            background: #2563eb;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .ai-message.assistant .ai-message-content {
+            background: white;
+            color: #1e293b;
+            border: 1px solid #e2e8f0;
+            border-bottom-left-radius: 4px;
+        }
+
+        .ai-error {
+            color: #b91c1c;
+            background: #fef2f2;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            display: none;
+            margin: 0 20px;
+        }
+
+        .ai-typing {
+            color: #64748b;
+            font-size: 13px;
+            padding: 0 22px 12px;
+            display: none;
+        }
+
+        .ai-suggestions {
+            padding: 15px 20px 5px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .ai-suggestions button {
+            border: 1px solid #dbeafe;
+            background: #eff6ff;
+            color: #1d4ed8;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .ai-input-area {
+            border-top: 1px solid #e2e8f0;
+            padding: 17px 20px;
+            background: white;
+        }
+
+        .ai-input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ai-input-row textarea {
+            resize: none;
+            min-height: 48px;
+            max-height: 130px;
+            border-radius: 13px;
+        }
+
+        .ai-send {
+            height: 48px;
+            min-width: 52px;
+            border: none;
+            border-radius: 12px;
+            background: #2563eb;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .ai-send:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+
+        .ai-note {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        @media(max-width:600px) {
+            .ai-messages {
+                height: 430px;
+                padding: 14px;
+            }
+
+            .ai-message {
+                max-width: 94%;
+            }
+
+            .ai-chat-header {
+                padding: 14px;
+            }
+
+            .ai-suggestions {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="topbar">
+    <div class="container">
+        <span>🎓 EduSmart 12</span>
+        <span>Trợ lý học tập thông minh</span>
+    </div>
+</div>
+
+<header class="site-header">
+    <div class="container nav-wrap">
+
+        <a href="index.html" class="brand">
+            <span class="brand-mark">E12</span>
+            EduSmart 12
+        </a>
+
+        <button class="menu-toggle" data-menu-toggle>☰</button>
+
+        <nav class="nav-links" data-nav>
+            <a href="index.html">Trang chủ</a>
+            <a href="gioi-thieu.html">Giới thiệu</a>
+            <a href="hoc-lieu.html">Học liệu</a>
+            <a href="luyen-tap.html">Luyện tập</a>
+            <a href="ai-ho-tro.html">AI hỗ trợ</a>
+            <a href="lien-he.html">Liên hệ</a>
+        </nav>
+
+        <div class="nav-actions">
+            <a href="admin/login.html" class="btn btn-primary">
+                Giáo viên
+            </a>
+        </div>
+
+    </div>
+</header>
+
+<main>
+
+<section class="page-hero">
+    <div class="container">
+        <span class="eyebrow">ARTIFICIAL INTELLIGENCE</span>
+        <h1>EduSmart AI Assistant</h1>
+        <p>Trợ lý đồng hành cùng bạn trên hành trình học tập.</p>
+    </div>
+</section>
+
+<section class="section">
+
+    <div class="container ai-page">
+
+        <div class="ai-intro">
+            <h2>🤖 Trò chuyện cùng EduSmart AI</h2>
+            <p>Đặt câu hỏi để nhận hỗ trợ học tập.</p>
+        </div>
+
+        <div class="ai-chat">
+
+            <div class="ai-chat-header">
+
+                <div class="ai-avatar">🤖</div>
+
+                <div>
+                    <h2>EduSmart AI</h2>
+                    <p>Trợ lý học tập trực tuyến</p>
+                </div>
+
+                <div class="ai-header-actions">
+                    <button type="button" id="newChatButton">
+                        + Cuộc trò chuyện mới
+                    </button>
+                </div>
+
+            </div>
+
+            <div
+                class="ai-messages"
+                id="aiMessages"
+                aria-live="polite"
+            ></div>
+
+            <div class="ai-typing" id="aiTyping">
+                EduSmart AI đang suy nghĩ...
+            </div>
+
+            <div class="ai-error" id="aiError"></div>
+
+            <div class="ai-suggestions">
+
+                <button type="button" data-question="Giải thích cho mình về đạo hàm Toán 12.">
+                    📐 Học Toán
+                </button>
+
+                <button type="button" data-question="Giúp mình lập kế hoạch ôn thi lớp 12.">
+                    📅 Lập kế hoạch
+                </button>
+
+                <button type="button" data-question="Giải thích các thì cơ bản trong tiếng Anh.">
+                    🇬🇧 Học tiếng Anh
+                </button>
+
+                <button type="button" data-question="Hướng dẫn mình học HTML và CSS cơ bản.">
+                    💻 Học Tin học
+                </button>
+
+            </div>
+
+            <div class="ai-input-area">
+
+                <form id="aiChatForm">
+
+                    <div class="ai-input-row">
+
+                        <textarea
+                            id="aiQuestion"
+                            placeholder="Nhập câu hỏi của bạn..."
+                            maxlength="4000"
+                            rows="1"
+                            required
+                        ></textarea>
+
+                        <button
+                            class="ai-send"
+                            type="submit"
+                            id="aiSendButton"
+                            aria-label="Gửi câu hỏi"
+                        >
+                            ➤
+                        </button>
+
+                    </div>
+
+                </form>
+
+                <p class="ai-note">
+                    AI có thể mắc lỗi. Hãy kiểm tra lại kiến thức quan trọng.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+<footer class="footer">
+    <div class="container">
+
+        <h3>🎓 EduSmart 12</h3>
+
+        <p>Học tập dễ dàng - Tiến bộ mỗi ngày.</p>
+
+        <div class="copyright">
+            © <span data-year></span> EduSmart 12
+        </div>
+
+    </div>
+</footer>
+
+<script src="js/main.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form = document.getElementById("aiChatForm");
+    const input = document.getElementById("aiQuestion");
+    const messagesBox = document.getElementById("aiMessages");
+    const typing = document.getElementById("aiTyping");
+    const errorBox = document.getElementById("aiError");
+    const sendButton = document.getElementById("aiSendButton");
+    const newChatButton = document.getElementById("newChatButton");
+
+    const STORAGE_KEY = "edusmart_ai_history";
+
+    let history = [];
+
+    try {
+        history = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+
+        if (!Array.isArray(history)) history = [];
+    } catch {
+        history = [];
+    }
+
+    let busy = false;
+
+    function saveHistory() {
+        try {
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(history.slice(-40))
+            );
+        } catch {
+            showError("Không thể lưu lịch sử trò chuyện.");
+        }
+    }
+
+    function addMessage(role, content) {
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "ai-message " + role;
+
+        const name = document.createElement("div");
+        name.className = "ai-message-name";
+        name.textContent = role === "user" ? "Bạn" : "EduSmart AI";
+
+        const body = document.createElement("div");
+        body.className = "ai-message-content";
+        body.textContent = content;
+
+        wrapper.append(name, body);
+        messagesBox.appendChild(wrapper);
+
+        messagesBox.scrollTop = messagesBox.scrollHeight;
+    }
+
+    function showError(message) {
+        errorBox.textContent = message;
+        errorBox.style.display = "block";
+    }
+
+    function hideError() {
+        errorBox.textContent = "";
+        errorBox.style.display = "none";
+    }
+
+    function renderHistory() {
+
+        messagesBox.replaceChildren();
+
+        if (history.length === 0) {
+            addMessage(
+                "assistant",
+                "Xin chào! Mình là EduSmart AI. Bạn muốn học môn gì hôm nay? Hãy nhập câu hỏi để bắt đầu nhé!"
+            );
+            return;
+        }
+
+        history.forEach(function (message) {
+            addMessage(message.role, message.content);
+        });
+    }
+
+    async function sendMessage(question) {
+
+        if (busy || !question.trim()) return;
+
+        busy = true;
+
+        hideError();
+
+        const userMessage = {
+            role: "user",
+            content: question.trim()
+        };
+
+        history.push(userMessage);
+
+        addMessage("user", userMessage.content);
+
+        input.value = "";
+
+        sendButton.disabled = true;
+        typing.style.display = "block";
+
+        try {
+
+            const response = await fetch("/api/chat", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    messages: history.slice(-12)
+                })
+
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    data.error || "Không thể kết nối AI."
+                );
+            }
+
+            const reply = data.reply;
+
+            if (!reply) {
+                throw new Error("AI chưa trả về nội dung.");
+            }
+
+            history.push({
+                role: "assistant",
+                content: reply
+            });
+
+            saveHistory();
+
+            addMessage("assistant", reply);
+
+        } catch (error) {
+
+            showError(error.message);
+
+            // Xoa cau hoi chua duoc AI tra loi khoi lich su
+            history.pop();
+
+        } finally {
+
+            busy = false;
+            typing.style.display = "none";
+            sendButton.disabled = false;
+            input.focus();
+
+        }
+    }
+
+    form.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+        sendMessage(input.value);
+
+    });
+
+    input.addEventListener("keydown", function (event) {
+
+        if (event.key === "Enter" && !event.shiftKey) {
+            event.preventDefault();
+            form.requestSubmit();
+        }
+
+    });
+
+    document.querySelectorAll("[data-question]").forEach(function (button) {
+
+        button.addEventListener("click", function () {
+
+            sendMessage(button.dataset.question);
+
+        });
+
+    });
+
+    newChatButton.addEventListener("click", function () {
+
+        if (busy) return;
+
+        if (!confirm("Bạn muốn bắt đầu cuộc trò chuyện mới?")) {
+            return;
+        }
+
+        history = [];
+
+        saveHistory();
+
+        hideError();
+
+        renderHistory();
+
+    });
+
+    renderHistory();
+
+});
+</script>
+
+</body>
+</html>

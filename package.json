@@ -1,0 +1,17 @@
+{
+  "name": "edusmart12",
+  "version": "1.0.0",
+  "description": "EduSmart 12 - Website hoc tap thong minh",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "@google/genai": "^3.0.0",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "openai": "^6.0.0"
+  }
+}

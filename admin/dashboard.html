@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản trị | EduSmart 12</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+<div class="admin-shell">
+
+    <header class="admin-top">
+        <div class="container">
+
+            <strong>🎓 EduSmart 12 - ADMIN</strong>
+
+            <div style="display:flex;gap:12px;align-items:center">
+                <a href="../index.html" style="color:white">
+                    Xem website
+                </a>
+
+                <button id="logoutButton" class="btn btn-light">
+                    Đăng xuất
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <main class="container admin-main">
+
+        <h1 style="color:#102448">
+            Bảng điều khiển quản trị
+        </h1>
+
+        <p class="small">
+            Xin chào, <strong id="adminName">Giáo viên</strong>!
+            Chào mừng đến với hệ thống quản trị EduSmart 12.
+        </p>
+
+        <section class="admin-grid" style="margin-top:25px">
+
+            <div class="admin-stat">
+                <span>📚 Học liệu</span>
+                <strong id="resourceCount">12</strong>
+                <small>Chủ đề học tập mẫu</small>
+            </div>
+
+            <div class="admin-stat">
+                <span>✉️ Góp ý</span>
+                <strong id="feedbackCount">0</strong>
+                <small>Thông tin từ học sinh</small>
+            </div>
+
+            <div class="admin-stat">
+                <span>📢 Thông báo</span>
+                <strong id="noticeCount">0</strong>
+                <small>Thông báo đã đăng</small>
+            </div>
+
+        </section>
+
+        <section class="admin-panel">
+
+            <h2>📢 Quản lý thông báo</h2>
+
+            <form id="noticeForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group full">
+                        <label>Tiêu đề thông báo</label>
+                        <input
+                            type="text"
+                            id="noticeTitle"
+                            placeholder="Nhập tiêu đề..."
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Nội dung thông báo</label>
+                        <textarea
+                            id="noticeContent"
+                            rows="4"
+                            placeholder="Nhập nội dung..."
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group full">
+                        <button type="submit" class="btn btn-primary">
+                            Đăng thông báo
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>
+
+            <div id="noticeList"></div>
+
+        </section>
+
+        <section class="admin-panel">
+
+            <h2>📚 Thêm học liệu</h2>
+
+            <form id="resourceForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Tên học liệu</label>
+                        <input
+                            type="text"
+                            id="resourceTitle"
+                            placeholder="Tên tài liệu"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Môn học</label>
+                        <select id="resourceSubject" required>
+                            <option value="toan">Toán học</option>
+                            <option value="ly">Vật lí</option>
+                            <option value="hoa">Hóa học</option>
+                            <option value="sinh">Sinh học</option>
+                            <option value="van">Ngữ văn</option>
+                            <option value="tin">Tin học</option>
+                            <option value="anh">Tiếng Anh</option>
+                            <option value="dia">Địa lí</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Mô tả</label>
+                        <textarea
+                            id="resourceDescription"
+                            rows="3"
+                            placeholder="Mô tả nội dung học liệu..."
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Đường dẫn tài liệu (nếu có)</label>
+                        <input
+                            type="url"
+                            id="resourceLink"
+                            placeholder="https://..."
+                        >
+                    </div>
+
+                    <div class="form-group full">
+                        <button type="submit" class="btn btn-primary">
+                            Thêm học liệu
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>
+
+            <div class="table-wrap">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tên học liệu</th>
+                            <th>Môn học</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="resourceList"></tbody>
+                </table>
+
+            </div>
+
+        </section>
+
+        <section class="admin-panel">
+
+            <h2>✉️ Góp ý từ học sinh</h2>
+
+            <div class="table-wrap">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Họ tên</th>
+                            <th>Email</th>
+                            <th>Chủ đề</th>
+                            <th>Nội dung</th>
+                            <th>Thời gian</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="feedbackList"></tbody>
+                </table>
+
+            </div>
+
+        </section>
+
+        <section class="admin-panel">
+
+            <h2>📊 Lịch sử luyện tập</h2>
+
+            <div class="table-wrap">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Điểm</th>
+                            <th>Tổng câu</th>
+                            <th>Thời gian</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="quizHistory"></tbody>
+                </table>
+
+            </div>
+
+        </section>
+
+        <p class="notice" style="margin-top:20px">
+            Lưu ý: Bảng quản trị hiện sử dụng dữ liệu trên trình duyệt
+            và chỉ phục vụ thử nghiệm. Chưa có cơ sở dữ liệu tập trung.
+        </p>
+
+    </main>
+
+</div>
+
+<script src="../js/admin.js"></script>
+
+</body>
+</html>

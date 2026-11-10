@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luyện tập | EduSmart 12</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div class="topbar">
+    <div class="container">
+        <span>🎓 EduSmart 12</span>
+        <span>Kiểm tra kiến thức của bạn</span>
+    </div>
+</div>
+
+<header class="site-header">
+    <div class="container nav-wrap">
+
+        <a href="index.html" class="brand">
+            <span class="brand-mark">E12</span>
+            EduSmart 12
+        </a>
+
+        <button class="menu-toggle" data-menu-toggle>☰</button>
+
+        <nav class="nav-links" data-nav>
+            <a href="index.html">Trang chủ</a>
+            <a href="gioi-thieu.html">Giới thiệu</a>
+            <a href="hoc-lieu.html">Học liệu</a>
+            <a href="luyen-tap.html">Luyện tập</a>
+            <a href="ai-ho-tro.html">AI hỗ trợ</a>
+            <a href="lien-he.html">Liên hệ</a>
+        </nav>
+
+        <div class="nav-actions">
+            <a href="admin/login.html" class="btn btn-primary">
+                Giáo viên
+            </a>
+        </div>
+
+    </div>
+</header>
+
+<main>
+
+<section class="page-hero">
+    <div class="container">
+
+        <span class="eyebrow">KIỂM TRA KIẾN THỨC</span>
+
+        <h1>Luyện tập trắc nghiệm</h1>
+
+        <p>
+            Hoàn thành các câu hỏi và xem kết quả ngay sau khi nộp bài.
+        </p>
+
+    </div>
+</section>
+
+<section class="section">
+
+    <div class="container content-layout">
+
+        <div class="card">
+
+            <h2 style="color:#102448">
+                📝 Bài kiểm tra Tin học cơ bản
+            </h2>
+
+            <p class="small">
+                Số câu: 5 | Mỗi câu đúng: 2 điểm | Tổng: 10 điểm
+            </p>
+
+            <form id="practiceQuiz">
+
+                <div class="quiz-question">
+
+                    <h3>
+                        Câu 1: Ngôn ngữ nào được dùng
+                        để tạo cấu trúc trang web?
+                    </h3>
+
+                    <label class="option">
+                        <input type="radio" name="q1" value="a">
+                        CSS
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="q1" value="b">
+                        HTML
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="q1" value="c">
+                        SQL
+                    </label>
+
+                </div>
+
+                <div class="quiz-question">
+
+                    <h3>
+                        Câu 2: CSS được sử dụng chủ yếu để làm gì?
+                    </h3>
+
+                    <label class="option">
+                        <input type="radio" name="q2" value="a">
+                        Định dạng giao diện trang web
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="q2" value="b">
+                        Lưu trữ dữ liệu
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="q2" value="c">
+                        Gửi email
+                    </label>
+
+                </div>
+
+                <div class="quiz-question">
+
+                    <h3>
+                        Câu 3: Thẻ HTML nào được dùng để tạo liên kết?
+                    </h3>
+
+                    <label class="option">
+                        <input type="radio" name="q3" value="a">
+                        &lt;p&gt;
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="q3" value="b">
+                        &lt;img&gt;
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="q3" value="c">
+                        &lt;a&gt;
+                    </label>
+
+                </div>
+
+                <div class="quiz-question">
+
+                    <h3>
+                        Câu 4: Khi sử dụng hình ảnh trên website,
+                        chúng ta cần làm gì?
+                    </h3>
+
+                    <label class="option">
+                        <input type="radio" name="q4" value="a">
+                        Sử dụng bất kỳ hình ảnh nào
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="q4" value="b">
+                        Kiểm tra quyền sử dụng và ghi nguồn
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="q4" value="c">
+                        Xóa thông tin tác giả
+                    </label>
+
+                </div>
+
+                <div class="quiz-question">
+
+                    <h3>
+                        Câu 5: Phương pháp nào giúp tự đánh giá
+                        mức độ hiểu bài?
+                    </h3>
+
+                    <label class="option">
+                        <input type="radio" name="q5" value="a">
+                        Tự đặt câu hỏi và làm bài kiểm tra
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="q5" value="b">
+                        Chỉ đọc tiêu đề
+                    </label>
+
+                    <label class="option">
+                        <input type="radio" name="q5" value="c">
+                        Học dồn trong một lần
+                    </label>
+
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Nộp bài và xem kết quả
+                </button>
+
+                <div
+                    class="result-box"
+                    id="quizResult"
+                    aria-live="polite">
+                </div>
+
+            </form>
+
+        </div>
+
+        <aside>
+
+            <div class="card">
+
+                <h3>📌 Hướng dẫn làm bài</h3>
+
+                <p>
+                    Đọc kỹ câu hỏi và chọn một đáp án phù hợp.
+                </p>
+
+                <p>
+                    Sau khi hoàn thành, nhấn nút nộp bài
+                    để hệ thống tự động chấm điểm.
+                </p>
+
+                <div class="notice">
+                    Mỗi câu trả lời đúng được 2 điểm.
+                    Tổng điểm tối đa là 10.
+                </div>
+
+            </div>
+
+            <div class="card" style="margin-top:16px">
+
+                <h3>💡 Mẹo học tập</h3>
+
+                <p>
+                    Hãy ghi lại những câu trả lời sai,
+                    xem lại kiến thức và thử làm lại.
+                </p>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+</section>
+
+</main>
+
+<footer class="footer">
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <div>
+                <h3>EduSmart 12</h3>
+                <p>Học tập dễ dàng - Tiến bộ mỗi ngày.</p>
+            </div>
+
+            <div>
+                <h4>Điều hướng</h4>
+                <a href="index.html">Trang chủ</a>
+                <a href="hoc-lieu.html">Học liệu</a>
+            </div>
+
+            <div>
+                <h4>Quản trị</h4>
+                <a href="admin/login.html">Giáo viên</a>
+            </div>
+
+        </div>
+
+        <div class="copyright">
+            © <span data-year></span> EduSmart 12
+        </div>
+
+    </div>
+
+</footer>
+
+<script src="js/main.js"></script>
+
+</body>
+</html>
