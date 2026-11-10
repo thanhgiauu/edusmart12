@@ -132,33 +132,54 @@
         </nav>
 
         <!-- KHU VỰC TÀI KHOẢN -->
-        <div class="nav-actions">
-            <div class="account-buttons">
+  <!-- KHU VỰC TÀI KHOẢN -->
+<div class="nav-actions">
 
-                <a href="/hoc-sinh/dang-nhap.html"
-                   class="account-btn student-login">
-                    Đăng nhập học sinh
-                </a>
+    <!-- Hiện khi chưa đăng nhập -->
+    <div class="account-buttons" id="guestActions">
 
-                <a href="/hoc-sinh/dang-ky.html"
-                   class="account-btn student-register">
-                    Đăng ký học sinh
-                </a>
+        <a href="/hoc-sinh/dang-nhap.html"
+           class="account-btn student-login">
+            Đăng nhập học sinh
+        </a>
 
-                <a href="/giao-vien/dang-nhap.html"
-                   class="account-btn teacher-login">
-                    Đăng nhập giáo viên
-                </a>
+        <a href="/hoc-sinh/dang-ky.html"
+           class="account-btn student-register">
+            Đăng ký học sinh
+        </a>
 
-                <a href="/admin/login.html"
-                   class="account-btn admin-login">
-                    Quản trị viên
-                </a>
+        <a href="/giao-vien/dang-nhap.html"
+           class="account-btn teacher-login">
+            Đăng nhập giáo viên
+        </a>
 
-            </div>
-        </div>
+        <a href="/admin/login.html"
+           class="account-btn admin-login">
+            Quản trị viên
+        </a>
 
     </div>
+
+    <!-- Hiện khi đã đăng nhập -->
+    <div class="account-buttons" id="signedInActions" hidden>
+
+        <span class="account-btn" id="welcomeUser"></span>
+
+        <a href="#" class="account-btn student-login"
+           id="accountDashboard">
+            Trang quản lý
+        </a>
+
+        <button type="button"
+                class="account-btn admin-login"
+                id="logoutButton">
+            Đăng xuất
+        </button>
+
+    </div>
+
+</div>
+</div>
 </header>
 
 <!-- NỘI DUNG CHÍNH -->
@@ -499,5 +520,121 @@
 
 <script src="js/main.js"></script>
 
+<script>
+document.addEventListener("DOMContentLoaded", async function () {
+
+    const guestActions = document.getElementById("guestActions");
+    const signedInActions = document.getElementById("signedInActions");
+    const welcomeUser = document.getElementById("welcomeUser");
+    const dashboardLink = document.getElementById("accountDashboard");
+    const logoutButton = document.getElementById("logoutButton");
+
+   function showGuest() {
+    guestActions.hidden = false;
+    signedInActions.hidden = true;
+}
+
+function showUser(user) {
+    guestActions.hidden = true;
+    signedInActions.hidden = false;
+
+    const name = user.fullName ||
+                 user.full_name ||
+                 user.username ||
+                 "Người dùng";
+
+    const roles = {
+        student: "Học sinh",
+        teacher: "Giáo viên",
+        admin: "Quản trị viên"
+    };
+
+    welcomeUser.textContent =
+        "Xin chào, " + name + " (" +
+        (roles[user.role] || "Thành viên") + ")";
+
+    if (user.role === "student") {
+        dashboardLink.href = "/hoc-sinh/tai-khoan-hoc-sinh.html";
+    } else if (user.role === "teacher") {
+        dashboardLink.href = "/giao-vien/dashboard.html";
+    } else if (user.role === "admin") {
+        dashboardLink.href = "/admin/dashboard.html";
+    }
+}
+    // Mặc định hiện nút đăng nhập
+    showGuest();
+
+    // Kiểm tra phiên đăng nhập từ máy chủ
+    try {
+        const response = await fetch("/api/auth/me", {
+            method: "GET",
+            credentials: "same-origin",
+            cache: "no-store"
+        });
+
+        if (!response.ok) {
+            showGuest();
+            return;
+        }
+
+        const data = await response.json();
+
+        if (data.success && data.user && data.user.role) {
+            showUser(data.user);
+        } else {
+            showGuest();
+        }
+
+    } catch (error) {
+        console.error("Lỗi kiểm tra đăng nhập:", error);
+        showGuest();
+    }
+
+    // Đăng xuất
+    logoutButton.addEventListener("click", async function () {
+
+        logoutButton.disabled = true;
+
+        try {
+            const response = await fetch("/api/auth/logout", {
+                method: "POST",
+                credentials: "same-origin"
+            });
+
+            if (response.ok) {
+                window.location.replace("/index.html");
+            } else {
+                alert("Đăng xuất thất bại.");
+                logoutButton.disabled = false;
+            }
+
+        } catch (error) {
+            alert("Không kết nối được máy chủ.");
+            logoutButton.disabled = false;
+        }
+
+    });
+
+});
+</script>
+
 </body>
 </html>
+/* Sửa lỗi ẩn/hiện nút tài khoản */
+[hidden] {
+    display: none !important;
+}
+
+#guestActions[hidden],
+#signedInActions[hidden] {
+    display: none !important;
+}
+
+#guestActions:not([hidden]),
+#signedInActions:not([hidden]) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}

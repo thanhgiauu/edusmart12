@@ -749,3 +749,128 @@ th {
         font-size: 12px;
     }
 }
+/* FIX GIAO DIỆN EDUSMART 12 */
+html {
+    width: 100%;
+    min-width: 320px;
+    overflow-x: hidden;
+}
+
+body {
+    width: 100%;
+    min-width: 320px;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+.container {
+    width: min(92%, 1200px);
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero {
+    width: 100%;
+}
+
+.hero-grid {
+    display: grid;
+    width: 100%;
+    grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+    gap: 35px;
+    align-items: center;
+}
+
+.hero-grid > * {
+    min-width: 0;
+}
+
+.hero-card {
+    width: 100%;
+    min-width: 0;
+}
+
+.hero h1 {
+    overflow-wrap: break-word;
+}
+
+@media (max-width: 900px) {
+    .hero-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 620px) {
+    .container {
+        width: 92%;
+    }
+
+    .hero-grid {
+        gap: 22px;
+    }
+}/* FIX BỐ CỤC TRANG CHỦ EDUSMART 12 */
+
+.site-header {
+    width: 100%;
+}
+
+.nav-wrap {
+    width: 92%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+main {
+    display: block;
+    width: 100%;
+}
+
+.hero {
+    width: 100%;
+    padding: 65px 0;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+    gap: 35px;
+    align-items: center;
+}
+
+.hero-grid > div {
+    min-width: 0;
+}
+
+.hero-card {
+    width: 100%;
+}
+
+@media (max-width: 900px) {
+    .hero-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 620px) {
+    .hero {
+        padding: 40px 0;
+    }
+}
+/* FIX ẨN KHU VỰC TÀI KHOẢN KHI ĐÃ ĐĂNG NHẬP */
+[hidden] {
+    display: none !important;
+}
+
+#guestActions[hidden],
+#signedInActions[hidden] {
+    display: none !important;
+}
+
+#guestActions,
+#signedInActions {
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
+}
