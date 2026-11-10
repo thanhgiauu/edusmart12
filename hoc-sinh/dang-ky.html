@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký học sinh - EduSmart 12</title>
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+
+<body class="auth-page">
+
+<header class="auth-header">
+    <a href="../index.html" class="auth-brand">🎓 EduSmart 12</a>
+    <a href="../index.html" class="auth-home">← Trang chủ</a>
+</header>
+
+<main class="auth-container">
+    <section class="auth-card">
+
+        <div class="auth-icon">🎓</div>
+
+        <h1>Tạo tài khoản học sinh</h1>
+
+        <p class="auth-description">
+            Đăng ký tài khoản để sử dụng các chức năng học tập EduSmart 12.
+        </p>
+
+        <form class="auth-form"
+              data-auth-form
+              data-endpoint="/api/auth/student/register"
+              data-redirect="/hoc-sinh/dang-nhap.html"
+              data-button-text="Tạo tài khoản">
+
+            <label for="fullName">Họ và tên</label>
+            <input
+                type="text"
+                id="fullName"
+                name="fullName"
+                placeholder="Nhập họ và tên"
+                autocomplete="name"
+                maxlength="120"
+                required>
+
+            <label for="username">Tên đăng nhập</label>
+            <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Ví dụ: nguyenvana12"
+                autocomplete="username"
+                minlength="3"
+                maxlength="30"
+                required>
+
+            <label for="email">Email</label>
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Nhập email của bạn"
+                autocomplete="email"
+                maxlength="254">
+
+            <label for="password">Mật khẩu</label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Tối thiểu 8 ký tự"
+                autocomplete="new-password"
+                minlength="8"
+                required>
+
+            <button type="submit" class="auth-submit">
+                Tạo tài khoản
+            </button>
+
+            <div id="authMessage" class="auth-message"></div>
+        </form>
+
+        <div class="auth-bottom">
+            Đã có tài khoản?
+            <a href="dang-nhap.html">Đăng nhập ngay</a>
+        </div>
+
+        <div class="auth-note">
+            🔒 Tài khoản học sinh được đăng ký riêng.
+            Không sử dụng trang đăng ký này để tạo tài khoản giáo viên.
+        </div>
+
+    </section>
+</main>
+
+<script src="../js/auth.js"></script>
+
+</body>
+</html>

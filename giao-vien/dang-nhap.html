@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập giáo viên - EduSmart 12</title>
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+
+<body class="auth-page">
+
+<header class="auth-header">
+    <a href="../index.html" class="auth-brand">🎓 EduSmart 12</a>
+    <a href="../index.html" class="auth-home">← Trang chủ</a>
+</header>
+
+<main class="auth-container">
+    <section class="auth-card">
+
+        <div class="auth-icon">👨‍🏫</div>
+
+        <h1>Khu vực giáo viên</h1>
+
+        <p class="auth-description">
+            Đăng nhập bằng tài khoản được quản trị viên cấp.
+        </p>
+
+        <form class="auth-form"
+              data-auth-form
+              data-endpoint="/api/auth/teacher/login"
+              data-redirect="/index.html"
+              data-button-text="Đăng nhập">
+
+            <label for="username">Tên đăng nhập giáo viên</label>
+            <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Nhập tên đăng nhập"
+                autocomplete="username"
+                required>
+
+            <label for="password">Mật khẩu</label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Nhập mật khẩu"
+                autocomplete="current-password"
+                required>
+
+            <button type="submit" class="auth-submit">
+                Đăng nhập giáo viên
+            </button>
+
+            <div id="authMessage" class="auth-message"></div>
+        </form>
+
+        <div class="auth-bottom">
+            Tài khoản giáo viên do Admin cấp.
+            <br>
+            <a href="../index.html">Quay lại trang chủ</a>
+        </div>
+
+        <div class="auth-note">
+            🔐 Không tự đăng ký tài khoản giáo viên tại đây.
+            Nếu chưa có tài khoản, hãy liên hệ quản trị viên.
+        </div>
+
+    </section>
+</main>
+
+<script src="../js/auth.js"></script>
+
+</body>
+</html>

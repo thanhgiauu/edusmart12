@@ -616,3 +616,136 @@ th {
     }
 }
  
+.account-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.account-btn {
+  display: inline-block;
+  padding: 12px 17px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.account-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.student-login {
+  background: #2563eb;
+  color: white;
+}
+
+.student-register {
+  background: #16a34a;
+  color: white;
+}
+
+.teacher-login {
+  background: #1e40af;
+  color: white;
+}
+
+.admin-login {
+  background: #334155;
+  color: white;
+}
+
+/* =================================
+   EDUSMART 12 - TÀI KHOẢN
+================================= */
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 0;
+}
+
+.account-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.account-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 14px;
+    border-radius: 9px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.account-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.12);
+}
+
+.student-login {
+    color: #fff;
+    background: #2563eb;
+}
+
+.student-register {
+    color: #fff;
+    background: #16a34a;
+}
+
+.teacher-login {
+    color: #fff;
+    background: #7c3aed;
+}
+
+.admin-login {
+    color: #334155;
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+/* Điện thoại và màn hình nhỏ */
+@media (max-width: 1100px) {
+    .nav-wrap {
+        flex-wrap: wrap;
+    }
+
+    .nav-actions {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 0;
+    }
+
+    .account-buttons {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .account-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+    }
+
+    .account-btn {
+        white-space: normal;
+        text-align: center;
+        padding: 11px 8px;
+        font-size: 12px;
+    }
+}

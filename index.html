@@ -4,11 +4,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>EduSmart 12 - Website học tập thông minh</title>
+
     <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* TÀI KHOẢN EDUSMART 12 */
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .account-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .account-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 11px 13px;
+            border-radius: 9px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .account-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 14px rgba(0, 0, 0, 0.12);
+        }
+
+        .student-login {
+            background: #2563eb;
+            color: white;
+        }
+
+        .student-register {
+            background: #16a34a;
+            color: white;
+        }
+
+        .teacher-login {
+            background: #7c3aed;
+            color: white;
+        }
+
+        .admin-login {
+            background: #f1f5f9;
+            color: #334155;
+            border-color: #cbd5e1;
+        }
+
+        @media (max-width: 1100px) {
+            .nav-wrap {
+                flex-wrap: wrap;
+            }
+
+            .nav-actions {
+                width: 100%;
+                justify-content: center;
+                padding: 12px 0;
+            }
+
+            .account-buttons {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .account-buttons {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                width: 100%;
+            }
+
+            .account-btn {
+                white-space: normal;
+                text-align: center;
+                padding: 11px 8px;
+                font-size: 12px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
+<!-- THANH THÔNG TIN TRÊN CÙNG -->
 <div class="topbar">
     <div class="container">
         <span>🎓 EduSmart 12 - Góc học tập thông minh</span>
@@ -16,6 +109,7 @@
     </div>
 </div>
 
+<!-- HEADER VÀ MENU -->
 <header class="site-header">
     <div class="container nav-wrap">
 
@@ -24,7 +118,9 @@
             EduSmart <span style="color:#2563eb">12</span>
         </a>
 
-        <button class="menu-toggle" data-menu-toggle>☰</button>
+        <button class="menu-toggle" data-menu-toggle aria-label="Mở menu">
+            ☰
+        </button>
 
         <nav class="nav-links" data-nav>
             <a href="index.html">Trang chủ</a>
@@ -35,17 +131,40 @@
             <a href="lien-he.html">Liên hệ</a>
         </nav>
 
+        <!-- KHU VỰC TÀI KHOẢN -->
         <div class="nav-actions">
-            <a href="admin/login.html" class="btn btn-primary">
-                Đăng nhập giáo viên
-            </a>
+            <div class="account-buttons">
+
+                <a href="/hoc-sinh/dang-nhap.html"
+                   class="account-btn student-login">
+                    Đăng nhập học sinh
+                </a>
+
+                <a href="/hoc-sinh/dang-ky.html"
+                   class="account-btn student-register">
+                    Đăng ký học sinh
+                </a>
+
+                <a href="/giao-vien/dang-nhap.html"
+                   class="account-btn teacher-login">
+                    Đăng nhập giáo viên
+                </a>
+
+                <a href="/admin/login.html"
+                   class="account-btn admin-login">
+                    Quản trị viên
+                </a>
+
+            </div>
         </div>
 
     </div>
 </header>
 
+<!-- NỘI DUNG CHÍNH -->
 <main>
 
+    <!-- KHU VỰC GIỚI THIỆU -->
     <section class="hero">
         <div class="container hero-grid">
 
@@ -116,6 +235,7 @@
         </div>
     </section>
 
+    <!-- KHÁM PHÁ EDUSMART -->
     <section class="section">
         <div class="container">
 
@@ -166,6 +286,7 @@
         </div>
     </section>
 
+    <!-- CÁC MÔN HỌC -->
     <section class="section alt">
         <div class="container">
 
@@ -252,6 +373,7 @@
         </div>
     </section>
 
+    <!-- CÁC TIỆN ÍCH -->
     <section class="section">
         <div class="container grid grid-3">
 
@@ -276,8 +398,66 @@
         </div>
     </section>
 
+    <!-- KHU VỰC TÀI KHOẢN CUỐI TRANG -->
+    <section class="section alt">
+        <div class="container">
+
+            <div class="section-head">
+                <h2>Tham gia EduSmart 12</h2>
+                <p>Chọn khu vực tài khoản phù hợp với bạn.</p>
+            </div>
+
+            <div class="grid grid-3">
+
+                <div class="card">
+                    <div class="card-icon">🎓</div>
+                    <h3>Dành cho học sinh</h3>
+                    <p>
+                        Đăng ký tài khoản để sử dụng các chức năng
+                        học tập và theo dõi quá trình học.
+                    </p>
+                    <a href="/hoc-sinh/dang-ky.html"
+                       class="btn btn-primary">
+                        Đăng ký học sinh
+                    </a>
+                    <a href="/hoc-sinh/dang-nhap.html">
+                        Đã có tài khoản? Đăng nhập →
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">👨‍🏫</div>
+                    <h3>Dành cho giáo viên</h3>
+                    <p>
+                        Đăng nhập bằng tài khoản giáo viên
+                        được quản trị viên cấp.
+                    </p>
+                    <a href="/giao-vien/dang-nhap.html"
+                       class="btn btn-primary">
+                        Đăng nhập giáo viên
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🛡️</div>
+                    <h3>Dành cho quản trị viên</h3>
+                    <p>
+                        Quản lý tài khoản học sinh,
+                        giáo viên và hoạt động website.
+                    </p>
+                    <a href="/admin/login.html"
+                       class="btn btn-primary">
+                        Đăng nhập quản trị
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
 </main>
 
+<!-- FOOTER -->
 <footer class="footer">
     <div class="container">
 
@@ -302,7 +482,9 @@
                 <h4>Thông tin dự án</h4>
                 <p>Trường THPT Nhơn Trạch</p>
                 <p>Tin học 12 - Chủ đề 4</p>
-                <a href="admin/login.html">Khu vực giáo viên</a>
+                <a href="/giao-vien/dang-nhap.html">
+                    Khu vực giáo viên
+                </a>
             </div>
 
         </div>
