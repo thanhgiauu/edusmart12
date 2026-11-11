@@ -2366,11 +2366,31 @@ app.post(
 // HỌC SINH: XEM THÔNG BÁO
 // =====================================================
 
+// HỌC SINH: XEM THÔNG BÁO
 app.get(
   "/api/student/notices",
   requireRole("student"),
   async (req, res) => {
     try {
+      // Lấy lớp hiện tại trực tiếp từ database
+      const studentResult = await pool.query(
+        `
+        SELECT class_name
+        FROM app_users
+        WHERE id = $1 AND role = 'student'
+        `,
+        [req.session.user.id]
+      );
+
+      if (!studentResult.rows.length) {
+        return res.status(404).json({
+          success: false,
+          error: "Không tìm thấy tài khoản học sinh."
+        });
+      }
+
+      const className = studentResult.rows[0].class_name || "";
+
       const result = await pool.query(
         `
         SELECT
@@ -2387,12 +2407,12 @@ app.get(
           ON u.id = n.teacher_id
 
         WHERE
-          n.class_name = 'Tất cả lớp'
-          OR n.class_name = $1
+          LOWER(TRIM(n.class_name)) = LOWER('Tất cả lớp')
+          OR LOWER(TRIM(n.class_name)) = LOWER(TRIM($1))
 
         ORDER BY n.created_at DESC
         `,
-        [req.session.user.className || ""]
+        [className]
       );
 
       return res.json({
