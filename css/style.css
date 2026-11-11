@@ -874,3 +874,16 @@ main {
     flex-wrap: wrap;
     gap: 8px;
 }
+/* FIX ẨN HIỆN NÚT TÀI KHOẢN */
+[hidden] {
+    display: none !important;
+}
+
+#guestActions:not([hidden]),
+#signedInActions:not([hidden]) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}

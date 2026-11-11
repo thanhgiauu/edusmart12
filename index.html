@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="css/style.css">
 
     <style>
+        [hidden] { display: none !important; }
+
         /* TÀI KHOẢN EDUSMART 12 */
 
         .nav-actions {
@@ -96,6 +98,32 @@
                 font-size: 12px;
             }
         }
+    
+        /* Thẻ môn học có thể bấm */
+        .subject-card {
+            display: block;
+            color: inherit;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+        }
+        .subject-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(15, 35, 70, .12);
+            border-color: #8fb4ff;
+        }
+        .subject-card:focus-visible {
+            outline: 3px solid #2563eb;
+            outline-offset: 3px;
+        }
+        .subject-open {
+            display: inline-block;
+            margin-top: 10px;
+            color: #2563eb;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
     </style>
 </head>
 
@@ -307,89 +335,75 @@
         </div>
     </section>
 
-    <!-- CÁC MÔN HỌC -->
+    <!-- CÁC MÔN HỌC: CÁC THẺ ĐỀU CÓ THỂ BẤM -->
     <section class="section alt">
         <div class="container">
-
             <div class="section-head">
                 <h2>12 đơn vị nội dung học tập</h2>
-                <p>Các chủ đề tham khảo dành cho học sinh.</p>
+                <p>Chọn một môn học để xem bài tập và tài liệu giáo viên đã đăng.</p>
             </div>
 
             <div class="grid grid-4">
-
-                <div class="card">
-                    <div class="card-icon">📐</div>
-                    <h3>Toán học</h3>
+                <a class="card subject-card" href="/hoc-sinh/mon-hoc.html?mon=To%C3%A1n%20h%E1%BB%8Dc">
+                    <div class="card-icon">📐</div><h3>Toán học</h3>
                     <p>Hàm số, đạo hàm, nguyên hàm và xác suất.</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">⚡</div>
-                    <h3>Vật lí</h3>
+                    <span class="subject-open">Bấm để xem bài tập →</span>
+                </a>
+                <a class="card subject-card" href="/hoc-sinh/mon-hoc.html?mon=V%E1%BA%ADt%20l%C3%AD">
+                    <div class="card-icon">⚡</div><h3>Vật lí</h3>
                     <p>Dao động, sóng và điện học.</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">🧪</div>
-                    <h3>Hóa học</h3>
+                    <span class="subject-open">Bấm để xem bài tập →</span>
+                </a>
+                <a class="card subject-card" href="/hoc-sinh/mon-hoc.html?mon=H%C3%B3a%20h%E1%BB%8Dc">
+                    <div class="card-icon">🧪</div><h3>Hóa học</h3>
                     <p>Hóa hữu cơ và phản ứng hóa học.</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">🧬</div>
-                    <h3>Sinh học</h3>
+                    <span class="subject-open">Bấm để xem bài tập →</span>
+                </a>
+                <a class="card subject-card" href="/hoc-sinh/mon-hoc.html?mon=Sinh%20h%E1%BB%8Dc">
+                    <div class="card-icon">🧬</div><h3>Sinh học</h3>
                     <p>Di truyền, tiến hóa và sinh thái.</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">🌏</div>
-                    <h3>Địa lí</h3>
+                    <span class="subject-open">Bấm để xem bài tập →</span>
+                </a>
+                <a class="card subject-card" href="/hoc-sinh/mon-hoc.html?mon=%C4%90%E1%BB%8Ba%20l%C3%AD">
+                    <div class="card-icon">🌏</div><h3>Địa lí</h3>
                     <p>Kinh tế - xã hội và bản đồ.</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">📜</div>
-                    <h3>Lịch sử</h3>
+                    <span class="subject-open">Bấm để xem bài tập →</span>
+                </a>
+                <a class="card subject-card" href="/hoc-sinh/mon-hoc.html?mon=L%E1%BB%8Bch%20s%E1%BB%AD">
+                    <div class="card-icon">📜</div><h3>Lịch sử</h3>
                     <p>Sự kiện và các mốc lịch sử.</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">📚</div>
-                    <h3>Ngữ văn</h3>
+                    <span class="subject-open">Bấm để xem bài tập →</span>
+                </a>
+                <a class="card subject-card" href="/hoc-sinh/mon-hoc.html?mon=Ng%E1%BB%AF%20v%C4%83n">
+                    <div class="card-icon">📚</div><h3>Ngữ văn</h3>
                     <p>Đọc hiểu và nghị luận văn học.</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">💻</div>
-                    <h3>Tin học</h3>
+                    <span class="subject-open">Bấm để xem bài tập →</span>
+                </a>
+                <a class="card subject-card" href="/hoc-sinh/mon-hoc.html?mon=Tin%20h%E1%BB%8Dc">
+                    <div class="card-icon">💻</div><h3>Tin học</h3>
                     <p>HTML, CSS và kỹ năng số.</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">🇬🇧</div>
-                    <h3>Tiếng Anh</h3>
+                    <span class="subject-open">Bấm để xem bài tập →</span>
+                </a>
+                <a class="card subject-card" href="/hoc-sinh/mon-hoc.html?mon=Ti%E1%BA%BFng%20Anh">
+                    <div class="card-icon">🇬🇧</div><h3>Tiếng Anh</h3>
                     <p>Từ vựng và ngữ pháp.</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">🧭</div>
-                    <h3>Hướng nghiệp</h3>
+                    <span class="subject-open">Bấm để xem bài tập →</span>
+                </a>
+                <a class="card subject-card" href="/hoc-sinh/mon-hoc.html?mon=H%C6%B0%E1%BB%9Bng%20nghi%E1%BB%87p">
+                    <div class="card-icon">🧭</div><h3>Hướng nghiệp</h3>
                     <p>Tìm hiểu ngành học tương lai.</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">🧠</div>
-                    <h3>Kỹ năng tự học</h3>
+                    <span class="subject-open">Bấm để xem bài tập →</span>
+                </a>
+                <a class="card subject-card" href="/hoc-sinh/mon-hoc.html?mon=K%E1%BB%B9%20n%C4%83ng%20t%E1%BB%B1%20h%E1%BB%8Dc">
+                    <div class="card-icon">🧠</div><h3>Kỹ năng tự học</h3>
                     <p>Quản lý thời gian và ghi nhớ.</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">🛡️</div>
-                    <h3>An toàn số</h3>
+                    <span class="subject-open">Bấm để xem bài tập →</span>
+                </a>
+                <a class="card subject-card" href="/hoc-sinh/mon-hoc.html?mon=An%20to%C3%A0n%20s%E1%BB%91">
+                    <div class="card-icon">🛡️</div><h3>An toàn số</h3>
                     <p>Bảo vệ thông tin cá nhân.</p>
-                </div>
-
+                    <span class="subject-open">Bấm để xem bài tập →</span>
+                </a>
             </div>
         </div>
     </section>
@@ -420,7 +434,7 @@
     </section>
 
     <!-- KHU VỰC TÀI KHOẢN CUỐI TRANG -->
-    <section class="section alt">
+    <section class="section alt" id="joinSection">
         <div class="container">
 
             <div class="section-head">
@@ -479,6 +493,8 @@
 </main>
 
 <!-- FOOTER -->
+
+<!-- FOOTER THÔNG TIN CÁ NHÂN -->
 <footer class="footer">
     <div class="container">
 
@@ -487,88 +503,86 @@
             <div>
                 <h3>🎓 EduSmart 12</h3>
                 <p>
-                    Website học tập thông minh dành cho
-                    học sinh THPT.
+                    Website học tập thông minh
+                    dành cho học sinh THPT.
                 </p>
             </div>
 
             <div>
-                <h4>Điều hướng</h4>
-                <a href="hoc-lieu.html">Kho học liệu</a>
-                <a href="luyen-tap.html">Luyện tập</a>
-                <a href="ai-ho-tro.html">AI hỗ trợ</a>
+                <h4>Thông tin cá nhân</h4>
+                <p>Họ và tên: Nguyễn Thanh Giàu</p>
+                <p>Lớp: 12A13</p>
+                <p>Trường: THPT Nhơn Trạch</p>
             </div>
 
             <div>
                 <h4>Thông tin dự án</h4>
-                <p>Trường THPT Nhơn Trạch</p>
-                <p>Tin học 12 - Chủ đề 4</p>
-                <a href="/giao-vien/dang-nhap.html">
-                    Khu vực giáo viên
-                </a>
+                <p>Người sáng lập và phát triển</p>
+                <p>Website EduSmart 12</p>
+                <p>Bởi Nguyễn Thanh Giàu</p>
             </div>
 
         </div>
 
         <div class="copyright">
-            © <span data-year></span> EduSmart 12.
-            Sản phẩm dự án STEM.
+            © 2026 EduSmart 12.
+            All rights reserved.
         </div>
 
     </div>
 </footer>
 
-<script src="js/main.js"></script>
-
+<!-- JavaScript quản lý tài khoản -->
 <script>
 document.addEventListener("DOMContentLoaded", async function () {
-
     const guestActions = document.getElementById("guestActions");
     const signedInActions = document.getElementById("signedInActions");
     const welcomeUser = document.getElementById("welcomeUser");
     const dashboardLink = document.getElementById("accountDashboard");
     const logoutButton = document.getElementById("logoutButton");
+    const joinSection = document.getElementById("joinSection");
 
-   function showGuest() {
-    guestActions.hidden = false;
-    signedInActions.hidden = true;
-}
-
-function showUser(user) {
-    guestActions.hidden = true;
-    signedInActions.hidden = false;
-
-    const name = user.fullName ||
-                 user.full_name ||
-                 user.username ||
-                 "Người dùng";
-
-    const roles = {
-        student: "Học sinh",
-        teacher: "Giáo viên",
-        admin: "Quản trị viên"
-    };
-
-    welcomeUser.textContent =
-        "Xin chào, " + name + " (" +
-        (roles[user.role] || "Thành viên") + ")";
-
-    if (user.role === "student") {
-        dashboardLink.href = "/hoc-sinh/tai-khoan-hoc-sinh.html";
-    } else if (user.role === "teacher") {
-        dashboardLink.href = "/giao-vien/dashboard.html";
-    } else if (user.role === "admin") {
-        dashboardLink.href = "/admin/dashboard.html";
+    function showGuest() {
+        if (guestActions) guestActions.hidden = false;
+        if (signedInActions) signedInActions.hidden = true;
+        if (joinSection) joinSection.hidden = false;
     }
-}
-    // Mặc định hiện nút đăng nhập
+
+    function showUser(user) {
+        if (guestActions) guestActions.hidden = true;
+        if (signedInActions) signedInActions.hidden = false;
+        if (joinSection) joinSection.hidden = true;
+
+        const name = user.fullName || user.full_name || user.username || "bạn";
+        const roleNames = {
+            student: "Học sinh",
+            teacher: "Giáo viên",
+            admin: "Quản trị viên"
+        };
+
+        if (welcomeUser) {
+            welcomeUser.textContent = "Xin chào, " + name + " (" +
+                (roleNames[user.role] || "Thành viên") + ")";
+        }
+
+        if (dashboardLink) {
+            if (user.role === "admin") {
+                dashboardLink.href = "/admin/dashboard.html";
+            } else if (user.role === "teacher") {
+                dashboardLink.href = "/giao-vien/dashboard.html";
+            } else {
+                dashboardLink.href = "/hoc-sinh/dashboard.html";
+            }
+        }
+    }
+
     showGuest();
 
-    // Kiểm tra phiên đăng nhập từ máy chủ
     try {
         const response = await fetch("/api/auth/me", {
             method: "GET",
             credentials: "same-origin",
+            headers: { "Accept": "application/json" },
             cache: "no-store"
         });
 
@@ -578,63 +592,41 @@ function showUser(user) {
         }
 
         const data = await response.json();
-
-        if (data.success && data.user && data.user.role) {
+        if (data && data.success && data.user && data.user.role) {
             showUser(data.user);
         } else {
             showGuest();
         }
-
     } catch (error) {
         console.error("Lỗi kiểm tra đăng nhập:", error);
         showGuest();
     }
 
-    // Đăng xuất
-    logoutButton.addEventListener("click", async function () {
+    if (logoutButton) {
+        logoutButton.addEventListener("click", async function () {
+            logoutButton.disabled = true;
+            try {
+                const response = await fetch("/api/auth/logout", {
+                    method: "POST",
+                    credentials: "same-origin",
+                    headers: { "Accept": "application/json" }
+                });
 
-        logoutButton.disabled = true;
-
-        try {
-            const response = await fetch("/api/auth/logout", {
-                method: "POST",
-                credentials: "same-origin"
-            });
-
-            if (response.ok) {
-                window.location.replace("/index.html");
-            } else {
-                alert("Đăng xuất thất bại.");
+                if (response.ok) {
+                    window.location.replace("/index.html");
+                } else {
+                    alert("Đăng xuất thất bại. Vui lòng thử lại.");
+                    logoutButton.disabled = false;
+                }
+            } catch (error) {
+                console.error("Lỗi đăng xuất:", error);
+                alert("Không kết nối được máy chủ để đăng xuất.");
                 logoutButton.disabled = false;
             }
-
-        } catch (error) {
-            alert("Không kết nối được máy chủ.");
-            logoutButton.disabled = false;
-        }
-
-    });
-
+        });
+    }
 });
 </script>
 
 </body>
 </html>
-/* Sửa lỗi ẩn/hiện nút tài khoản */
-[hidden] {
-    display: none !important;
-}
-
-#guestActions[hidden],
-#signedInActions[hidden] {
-    display: none !important;
-}
-
-#guestActions:not([hidden]),
-#signedInActions:not([hidden]) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 8px;
-}

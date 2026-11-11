@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Đăng bài tập - Giáo viên EduSmart 12</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        body {
+            background: #f3f7ff;
+            color: #102448;
+        }
+
+        .wrap {
+            max-width: 1100px;
+            margin: 34px auto;
+            padding: 0 18px;
+        }
+
+        .panel {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 22px;
+            margin: 16px 0;
+            box-shadow: 0 8px 24px rgba(16,36,72,.05);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0,1fr));
+            gap: 14px;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin: 10px 0 6px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            font: inherit;
+            box-sizing: border-box;
+        }
+
+        input[type=file] {
+            background: #f8fafc;
+        }
+
+        button, .btn {
+            border: 0;
+            border-radius: 9px;
+            padding: 11px 16px;
+            background: #2563eb;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        button:disabled {
+            opacity: .6;
+            cursor: wait;
+        }
+
+        .secondary {
+            background: #eaf1ff;
+            color: #1d4ed8;
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 9px;
+            margin: 12px 0;
+            background: #eff6ff;
+            color: #1e40af;
+        }
+
+        .message.error {
+            background: #fff1f2;
+            color: #be123c;
+        }
+
+        .exam {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+
+        .exam h3 {
+            margin: 0 0 8px;
+        }
+
+        .muted {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        @media(max-width:700px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<main class="wrap">
+
+    <p>
+        <a href="/giao-vien/dashboard.html">
+            ← Quay lại trang quản lý giáo viên
+        </a>
+    </p>
+
+    <!-- KHU VỰC ĐĂNG BÀI -->
+    <section class="panel">
+
+        <h1>📤 Đăng bài tập / Tải đề lên EduSmart 12</h1>
+
+        <p>
+            Giáo viên chọn môn học, lớp nhận bài và tải file đề.
+            Học sinh thuộc lớp được giao sẽ nhìn thấy bài tập.
+        </p>
+
+        <div id="accountStatus" class="message">
+            Đang kiểm tra tài khoản...
+        </div>
+
+        <form id="uploadForm">
+
+            <div class="form-grid">
+
+                <!-- TÊN BÀI -->
+                <div>
+                    <label for="title">
+                        Tên bài tập / đề kiểm tra *
+                    </label>
+
+                    <input
+                        id="title"
+                        name="title"
+                        maxlength="200"
+                        required
+                        placeholder="Ví dụ: Ôn tập chương 1"
+                    >
+                </div>
+
+                <!-- MÔN HỌC -->
+                <div>
+                    <label for="subject">Môn học *</label>
+
+                    <select id="subject" name="subject" required>
+                        <option value="">-- Chọn môn học --</option>
+                        <option value="Toán học">Toán học</option>
+                        <option value="Vật lí">Vật lí</option>
+                        <option value="Hóa học">Hóa học</option>
+                        <option value="Sinh học">Sinh học</option>
+                        <option value="Địa lí">Địa lí</option>
+                        <option value="Lịch sử">Lịch sử</option>
+                        <option value="Ngữ văn">Ngữ văn</option>
+                        <option value="Tin học">Tin học</option>
+                        <option value="Tiếng Anh">Tiếng Anh</option>
+                        <option value="Hướng nghiệp">Hướng nghiệp</option>
+                        <option value="Kỹ năng tự học">Kỹ năng tự học</option>
+                        <option value="An toàn số">An toàn số</option>
+                    </select>
+                </div>
+
+                <!-- LỚP -->
+                <div>
+                    <label for="className">Lớp được giao</label>
+
+                    <input
+                        id="className"
+                        name="className"
+                        maxlength="80"
+                        value="Tất cả lớp"
+                        placeholder="Ví dụ: 12A13"
+                    >
+
+                    <small class="muted">
+                        Nhập đúng tên lớp học sinh đã đăng ký.
+                        Hoặc nhập Tất cả lớp.
+                    </small>
+                </div>
+
+                <!-- THỜI GIAN -->
+                <div>
+                    <label for="durationMinutes">
+                        Thời gian làm bài (phút)
+                    </label>
+
+                    <input
+                        id="durationMinutes"
+                        name="durationMinutes"
+                        type="number"
+                        min="1"
+                        max="300"
+                        value="45"
+                        required
+                    >
+                </div>
+
+            </div>
+
+            <!-- FILE -->
+            <label for="file">File bài tập *</label>
+
+            <input
+                id="file"
+                name="file"
+                type="file"
+                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.webp"
+                required
+            >
+
+            <small class="muted">
+                Định dạng: PDF, Word, JPG, PNG, WEBP.
+                Dung lượng tối đa 20 MB.
+            </small>
+
+            <p>
+                <button id="submitButton" type="submit">
+                    📤 Đăng bài cho học sinh
+                </button>
+            </p>
+
+        </form>
+
+        <!-- THÔNG BÁO -->
+        <div id="message" class="message" hidden></div>
+
+    </section>
+
+    <!-- DANH SÁCH BÀI ĐÃ ĐĂNG -->
+    <section class="panel">
+
+        <h2>📋 Bài tập đã đăng</h2>
+
+        <button
+            type="button"
+            class="secondary"
+            id="refreshButton"
+        >
+            🔄 Làm mới danh sách
+        </button>
+
+        <div id="examList">
+            <p class="muted">Đang tải danh sách...</p>
+        </div>
+
+    </section>
+
+</main>
+
+<!-- CHỈ GỌI FILE JAVASCRIPT MỘT LẦN -->
+<script src="/js/teacher-tests.js" defer></script>
+
+</body>
+</html>
