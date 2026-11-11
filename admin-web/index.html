@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EduSmart Admin</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="loginPage" class="login-container">
+        <div class="login-box">
+            <h1>🎓 EduSmart Admin</h1>
+            <p>Hệ thống quản trị EduSmart 12</p>
+
+            <form id="loginForm">
+                <label>Tên đăng nhập</label>
+                <input
+                    type="text"
+                    id="username"
+                    required
+                    autocomplete="username"
+                >
+
+                <label>Mật khẩu</label>
+                <input
+                    type="password"
+                    id="password"
+                    required
+                    autocomplete="current-password"
+                >
+
+                <button type="submit">Đăng nhập quản trị</button>
+                <p id="loginMessage"></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="dashboardPage" hidden>
+        <aside class="sidebar">
+            <h2>EduSmart</h2>
+            <p>ADMIN PANEL</p>
+
+            <nav>
+                <button data-page="stats">📊 Tổng quan</button>
+                <button data-page="users">👥 Tài khoản</button>
+                <button data-page="teachers">👨‍🏫 Giáo viên</button>
+                <button data-page="students">🎓 Học sinh</button>
+                <button data-page="exams">📝 Bài kiểm tra</button>
+                <button data-page="notifications">🔔 Thông báo</button>
+                <button data-page="permissions">🔐 Phân quyền</button>
+                <button data-page="logs">📋 Nhật ký</button>
+            </nav>
+
+            <button id="logoutButton">Đăng xuất</button>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h2 id="pageTitle">Tổng quan hệ thống</h2>
+                <span id="adminName">Quản trị viên</span>
+            </header>
+
+            <section id="content">
+                <h2>Chào mừng đến EduSmart Admin</h2>
+                <p>Hệ thống quản lý EduSmart 12.</p>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
