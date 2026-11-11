@@ -4,87 +4,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng nhập giáo viên | EduSmart 12</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <title>Đăng nhập Quản trị - EduSmart 12</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #102347, #2563eb);
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 430px;
+            padding: 38px;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 15px 45px rgba(0,0,0,.2);
+        }
+
+        .logo {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+            background: #2563eb;
+        }
+
+        h1 {
+            text-align: center;
+            color: #142b50;
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 28px;
+            font-size: 14px;
+        }
+
+        label {
+            display: block;
+            margin: 16px 0 8px;
+            color: #243653;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #d7dfeb;
+            border-radius: 9px;
+            outline: none;
+            font-size: 15px;
+        }
+
+        input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+        }
+
+        button {
+            width: 100%;
+            margin-top: 24px;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        button:disabled {
+            opacity: .6;
+            cursor: wait;
+        }
+
+        #message {
+            display: none;
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .error {
+            display: block !important;
+            color: #b91c1c;
+            background: #fee2e2;
+        }
+
+        .success {
+            display: block !important;
+            color: #166534;
+            background: #dcfce7;
+        }
+
+        .back {
+            display: block;
+            margin-top: 22px;
+            text-align: center;
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 14px;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="admin-shell">
+    <main class="login-box">
+        <div class="logo">E12</div>
 
-    <div class="admin-top">
-        <div class="container">
-            <strong>🎓 EduSmart 12</strong>
-            <a href="../index.html" style="color:white">
-                ← Về trang chủ
-            </a>
-        </div>
-    </div>
+        <h1>Quản trị viên</h1>
 
-    <main class="container" style="padding-top:65px;padding-bottom:65px">
+        <p class="description">
+            Đăng nhập hệ thống quản trị EduSmart 12
+        </p>
 
-        <div class="card" style="max-width:450px;margin:auto">
+        <form id="adminLoginForm">
 
-            <div style="text-align:center;margin-bottom:25px">
-                <div class="big-icon">🔐</div>
-                <h1 style="color:#102448">Giáo viên đăng nhập</h1>
-                <p class="small">
-                    Khu vực quản lý website EduSmart 12
-                </p>
-            </div>
+            <label for="username">Tên đăng nhập</label>
+            <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Nhập tên đăng nhập Admin"
+                autocomplete="username"
+                required
+            >
 
-            <form id="loginForm">
+            <label for="password">Mật khẩu</label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Nhập mật khẩu"
+                autocomplete="current-password"
+                required
+            >
 
-                <div class="form-group">
-                    <label for="username">Tên tài khoản</label>
-                    <input
-                        type="text"
-                        id="username"
-                        placeholder="Nhập tài khoản"
-                        required
-                        autocomplete="username"
-                    >
-                </div>
+            <button type="submit" id="loginButton">
+                Đăng nhập quản trị
+            </button>
 
-                <div class="form-group" style="margin-top:15px">
-                    <label for="password">Mật khẩu</label>
-                    <input
-                        type="password"
-                        id="password"
-                        placeholder="Nhập mật khẩu"
-                        required
-                        autocomplete="current-password"
-                    >
-                </div>
+            <div id="message" role="alert"></div>
+        </form>
 
-                <div style="margin-top:20px">
-                    <button
-                        type="submit"
-                        class="btn btn-primary"
-                        style="width:100%">
-                        Đăng nhập
-                    </button>
-                </div>
-
-                <p
-                    id="loginMessage"
-                    style="color:#dc2626;margin-top:15px"
-                    aria-live="polite">
-                </p>
-
-            </form>
-
-            <div class="notice" style="margin-top:20px">
-                Chỉ dành cho giáo viên được cấp quyền quản trị.
-            </div>
-
-        </div>
-
+        <a class="back" href="/index.html">
+            ← Quay về trang chủ
+        </a>
     </main>
 
-</div>
+    <script>
+        const form = document.getElementById("adminLoginForm");
+        const message = document.getElementById("message");
+        const button = document.getElementById("loginButton");
 
-<script src="../js/auth.js"></script>
+        function showMessage(text, type) {
+            message.textContent = text;
+            message.className = type;
+        }
+
+        form.addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const username =
+                document.getElementById("username").value.trim();
+
+            const password =
+                document.getElementById("password").value;
+
+            button.disabled = true;
+            button.textContent = "Đang đăng nhập...";
+            message.className = "";
+            message.textContent = "";
+
+            try {
+                const response = await fetch("/api/auth/admin/login", {
+                    method: "POST",
+                    credentials: "same-origin",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    throw new Error(
+                        data.error || data.message || "Đăng nhập thất bại."
+                    );
+                }
+
+                if (!data.user || data.user.role !== "admin") {
+                    throw new Error(
+                        "Tài khoản không có quyền Quản trị viên."
+                    );
+                }
+
+                showMessage("Đăng nhập thành công! Đang chuyển trang...", "success");
+
+                window.location.href = "/admin/dashboard.html";
+
+            } catch (error) {
+                showMessage(error.message, "error");
+                button.disabled = false;
+                button.textContent = "Đăng nhập quản trị";
+            }
+        });
+    </script>
 
 </body>
 </html>

@@ -1,0 +1,830 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduSmart12 - Khu vực học sinh</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f1f5fb;
+  color:#172b4d;
+}
+.sidebar{
+  width:240px;
+  background:#192957;
+  color:white;
+  position:fixed;
+  inset:0 auto 0 0;
+  padding:25px 15px;
+  overflow-y:auto;
+}
+.brand{font-size:23px;font-weight:bold;margin:5px 8px 35px}
+.brand span{color:#55a0ff}
+.menu-title{font-size:11px;color:#aebde0;margin:25px 10px 12px}
+.menu button{
+  width:100%;
+  padding:14px 12px;
+  border:0;
+  border-radius:8px;
+  background:transparent;
+  color:white;
+  text-align:left;
+  font-size:14px;
+  cursor:pointer;
+  margin-bottom:5px;
+}
+.menu button:hover,.menu button.active{background:#2864ed}
+.logout{background:#a51f27!important;margin-top:25px}
+.main{margin-left:240px;padding:25px;min-height:100vh}
+.topbar{
+  background:white;
+  padding:18px 22px;
+  border-radius:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:22px;
+  box-shadow:0 3px 15px #00000008;
+  gap:12px;
+}
+.topbar strong{font-size:18px}
+.profile{color:#2563eb;font-weight:bold}
+.page{display:none}
+.page.active{display:block}
+.card{
+  background:white;
+  padding:22px;
+  border-radius:13px;
+  margin-bottom:20px;
+  box-shadow:0 3px 15px #00000008;
+}
+h2{font-size:23px;margin:0 0 18px}
+h3{font-size:17px;margin:0 0 14px}
+.muted{color:#71819a;line-height:1.6}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-bottom:20px;
+}
+.stat{
+  background:white;
+  padding:22px;
+  border-radius:12px;
+}
+.stat strong{
+  display:block;
+  color:#2563eb;
+  font-size:28px;
+  margin-top:10px;
+}
+button.primary,button.secondary,button.danger{
+  padding:10px 16px;
+  border:0;
+  border-radius:7px;
+  color:white;
+  cursor:pointer;
+  font-weight:bold;
+}
+.primary{background:#2563eb}
+.secondary{background:#64748b}
+.danger{background:#dc2626}
+button:disabled{opacity:.5;cursor:not-allowed}
+.exam-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:15px;
+}
+.exam-card{
+  border:1px solid #e1e8f2;
+  border-radius:12px;
+  padding:18px;
+}
+.exam-card h3{margin-bottom:10px}
+.tag{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:12px;
+  background:#e9f1ff;
+  color:#2563eb;
+  margin:3px 3px 10px 0;
+}
+input,select,textarea{
+  width:100%;
+  padding:12px;
+  border:1px solid #ccd7e6;
+  border-radius:8px;
+  margin:7px 0 15px;
+  font:inherit;
+}
+.question{
+  border:1px solid #e1e8f2;
+  border-radius:10px;
+  padding:18px;
+  margin-bottom:15px;
+}
+.question label{
+  display:block;
+  margin:12px 0;
+  cursor:pointer;
+}
+.question input[type=radio]{
+  width:auto;
+  margin-right:8px;
+}
+.timer{
+  background:#fff1f2;
+  color:#dc2626;
+  padding:13px;
+  border-radius:9px;
+  font-weight:bold;
+  position:sticky;
+  top:8px;
+  z-index:2;
+}
+.notice{
+  border-left:4px solid #2563eb;
+  padding:15px;
+  background:#f5f8ff;
+  border-radius:8px;
+  margin-bottom:12px;
+}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:550px}
+th,td{
+  text-align:left;
+  padding:13px;
+  border-bottom:1px solid #e5eaf1;
+}
+th{background:#f6f8fc}
+.hidden{display:none!important}
+#message{margin:12px 0;font-weight:bold}
+.success{color:#15803d}
+.error{color:#dc2626}
+@media(max-width:750px){
+  .sidebar{width:65px;padding:15px 7px}
+  .brand{font-size:13px;margin:5px 0 25px;overflow:hidden}
+  .menu-title{display:none}
+  .menu button{font-size:0;text-align:center;padding:14px 2px}
+  .menu button::first-letter{font-size:19px}
+  .logout{font-size:0!important}
+  .main{margin-left:65px;padding:12px}
+  .topbar{align-items:flex-start;flex-direction:column}
+  .stats{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar">
+  <div class="brand">EduSmart<span>12</span></div>
+
+  <div class="menu-title">KHU VỰC HỌC SINH</div>
+
+  <div class="menu">
+    <button class="active" onclick="showPage('home',this)">🏠 Tổng quan</button>
+    <button onclick="showPage('exams',this)">📝 Bài kiểm tra</button>
+    <button onclick="showPage('results',this)">🏆 Kết quả</button>
+    <button onclick="showPage('notices',this)">🔔 Thông báo</button>
+    <button onclick="showPage('account',this)">👤 Tài khoản</button>
+    <button class="logout" onclick="logout()">🚪 Đăng xuất</button>
+  </div>
+</aside>
+
+<main class="main">
+
+  <header class="topbar">
+    <strong>Hệ thống quản lý học tập EduSmart12</strong>
+    <div class="profile" id="studentName">Đang tải tài khoản...</div>
+  </header>
+
+  <!-- TỔNG QUAN -->
+  <section class="page active" id="home">
+    <div class="card">
+      <h2>Xin chào, <span id="welcomeName">Học sinh</span>!</h2>
+      <p class="muted">Chào mừng bạn đến với khu vực học tập EduSmart12.</p>
+      <button class="primary" onclick="openPage('exams')">Xem bài kiểm tra →</button>
+    </div>
+
+    <div class="stats">
+      <div class="stat">📝 Bài kiểm tra được giao<strong id="totalExams">0</strong></div>
+      <div class="stat">📤 Bài đã nộp<strong id="submittedExams">0</strong></div>
+      <div class="stat">🏆 Bài có điểm<strong id="gradedExams">0</strong></div>
+    </div>
+
+    <div class="card">
+      <h3>Hoạt động gần đây</h3>
+      <p class="muted" id="homeMessage">Hãy chọn mục Bài kiểm tra để xem đề giáo viên giao.</p>
+    </div>
+  </section>
+
+  <!-- DANH SÁCH BÀI KIỂM TRA -->
+  <section class="page" id="exams">
+    <div class="card">
+      <h2>📝 Bài kiểm tra được giao</h2>
+      <p class="muted">Các bài kiểm tra giáo viên giao cho lớp của bạn sẽ xuất hiện tại đây.</p>
+      <button class="primary" onclick="loadExams()">↻ Làm mới danh sách</button>
+    </div>
+    <div class="exam-grid" id="examList">
+      <div class="card">Đang tải bài kiểm tra...</div>
+    </div>
+  </section>
+
+  <!-- LÀM BÀI -->
+  <section class="page" id="doing">
+    <div class="card">
+      <div class="timer">⏱️ Thời gian còn lại: <span id="timer">--:--</span></div>
+      <h2 id="examTitle">Bài kiểm tra</h2>
+      <p class="muted" id="examInfo"></p>
+      <div id="fileArea"></div>
+      <div id="questionList"></div>
+      <button class="primary" id="submitButton" onclick="submitExam()">📤 Nộp bài kiểm tra</button>
+      <button class="secondary" onclick="openPage('exams')">Quay lại</button>
+    </div>
+  </section>
+
+  <!-- KẾT QUẢ -->
+  <section class="page" id="results">
+    <div class="card">
+      <h2>🏆 Kết quả học tập</h2>
+      <button class="primary" onclick="loadResults()">↻ Cập nhật kết quả</button>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Bài kiểm tra</th>
+              <th>Môn học</th>
+              <th>Điểm</th>
+              <th>Trạng thái</th>
+              <th>Ngày nộp</th>
+            </tr>
+          </thead>
+          <tbody id="resultList">
+            <tr><td colspan="5">Chưa có dữ liệu.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- THÔNG BÁO -->
+  <section class="page" id="notices">
+    <div class="card">
+      <h2>🔔 Thông báo từ giáo viên</h2>
+      <button class="primary" onclick="loadNotices()">↻ Làm mới</button>
+      <div id="noticeList" style="margin-top:20px"></div>
+    </div>
+  </section>
+
+  <!-- TÀI KHOẢN -->
+  <section class="page" id="account">
+    <div class="card">
+      <h2>👤 Thông tin học sinh</h2>
+      <p>Họ tên: <strong id="accountName"></strong></p>
+      <p>Tên đăng nhập: <strong id="accountUsername"></strong></p>
+      <p>Email: <strong id="accountEmail"></strong></p>
+
+      <label>Lớp học</label>
+      <input id="className" placeholder="Ví dụ: 12A1">
+      <button class="primary" onclick="saveClass()">Lưu lớp học</button>
+    </div>
+  </section>
+
+  <div id="message"></div>
+</main>
+
+<script>
+"use strict";
+
+const API = "/api";
+
+let currentUser = null;
+let currentExam = null;
+let currentQuestions = [];
+let submissionId = null;
+let timerInterval = null;
+let deadline = 0;
+let submitting = false;
+
+async function api(url, options = {}) {
+  const response = await fetch(API + url, {
+    credentials: "same-origin",
+    ...options,
+    headers: {
+      ...(options.body instanceof FormData
+        ? {}
+        : {"Content-Type":"application/json"}),
+      ...options.headers
+    }
+  });
+
+  const data = await response.json().catch(() => ({}));
+
+  if (response.status === 401) {
+    location.href = "/hoc-sinh/dang-nhap.html";
+    throw new Error("Phiên đăng nhập đã hết hạn.");
+  }
+
+  if (!response.ok) {
+    throw new Error(data.error || data.message || "Có lỗi xảy ra.");
+  }
+
+  return data;
+}
+
+function message(text, type = "success") {
+  const el = document.getElementById("message");
+  el.textContent = text;
+  el.className = type;
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  })[c]);
+}
+
+function showPage(id, button) {
+  if (currentExam && id !== "doing" && !submitting) {
+    if (!confirm("Bạn đang làm bài. Bạn có muốn rời trang này không?")) {
+      return;
+    }
+  }
+
+  document.querySelectorAll(".page").forEach(p => {
+    p.classList.remove("active");
+  });
+
+  const page = document.getElementById(id);
+  if (!page) return;
+
+  page.classList.add("active");
+
+  document.querySelectorAll(".menu button").forEach(b => {
+    b.classList.remove("active");
+  });
+
+  if (button) button.classList.add("active");
+
+  if (id === "exams") loadExams();
+  if (id === "results") loadResults();
+  if (id === "notices") loadNotices();
+}
+
+function openPage(id) {
+  const button = [...document.querySelectorAll(".menu button")]
+    .find(b => b.getAttribute("onclick")?.includes("'" + id + "'"));
+
+  showPage(id, button);
+}
+
+async function loadProfile() {
+  const data = await api("/auth/me");
+
+  if (data.user.role !== "student") {
+    location.href = "/index.html";
+    return;
+  }
+
+  currentUser = data.user;
+
+  document.getElementById("studentName").textContent =
+    currentUser.fullName;
+
+  document.getElementById("welcomeName").textContent =
+    currentUser.fullName;
+
+  document.getElementById("accountName").textContent =
+    currentUser.fullName;
+
+  document.getElementById("accountUsername").textContent =
+    currentUser.username;
+
+  document.getElementById("accountEmail").textContent =
+    currentUser.email || "Chưa cập nhật";
+
+  document.getElementById("className").value =
+    currentUser.className || "";
+
+  await refreshOverview();
+}
+
+async function refreshOverview() {
+  try {
+    const [exams, results] = await Promise.all([
+      api("/student/exams"),
+      api("/student/results")
+    ]);
+
+    document.getElementById("totalExams").textContent =
+      exams.exams.length;
+
+    document.getElementById("submittedExams").textContent =
+      results.results.length;
+
+    document.getElementById("gradedExams").textContent =
+      results.results.filter(r => r.total_score !== null).length;
+
+  } catch (error) {
+    message(error.message, "error");
+  }
+}
+
+async function saveClass() {
+  const className = document.getElementById("className").value.trim();
+
+  if (!className) {
+    return message("Vui lòng nhập lớp học.", "error");
+  }
+
+  try {
+    const data = await api("/student/class", {
+      method: "PATCH",
+      body: JSON.stringify({className})
+    });
+
+    currentUser = data.user;
+    message("Đã cập nhật lớp học thành công.");
+    loadExams();
+
+  } catch (error) {
+    message(error.message, "error");
+  }
+}
+
+async function loadExams() {
+  const list = document.getElementById("examList");
+  list.innerHTML = '<div class="card">Đang tải dữ liệu...</div>';
+
+  try {
+    const data = await api("/student/exams");
+
+    list.innerHTML = "";
+
+    if (!data.exams.length) {
+      list.innerHTML = `
+        <div class="card">
+          <h3>Chưa có bài kiểm tra</h3>
+          <p class="muted">Giáo viên chưa đăng đề cho lớp của bạn hoặc bạn chưa cập nhật lớp.</p>
+        </div>`;
+      return;
+    }
+
+    data.exams.forEach(exam => {
+      const submitted = Boolean(exam.submitted_at);
+      const started = Boolean(exam.submission_id);
+      const expired = exam.ends_at &&
+        Date.now() > new Date(exam.ends_at).getTime();
+
+      const notOpen = exam.starts_at &&
+        Date.now() < new Date(exam.starts_at).getTime();
+
+      let status = submitted ? "Đã nộp bài"
+        : expired ? "Đã hết hạn"
+        : notOpen ? "Chưa mở"
+        : started ? "Đang làm"
+        : "Chưa làm";
+
+      const disabled = submitted || expired || notOpen;
+
+      const card = document.createElement("div");
+      card.className = "exam-card";
+
+      card.innerHTML = `
+        <h3>${escapeHTML(exam.title)}</h3>
+        <span class="tag">${escapeHTML(exam.subject)}</span>
+        <span class="tag">${escapeHTML(exam.class_name)}</span>
+        <p>⏱️ ${exam.duration_minutes} phút</p>
+        <p>📝 ${exam.question_count} câu hỏi</p>
+        <p>📎 ${exam.file_name ? "Có file đề" : "Không có file đề"}</p>
+        <p>Trạng thái: <strong>${status}</strong></p>
+        ${
+          submitted
+          ? `<p>Điểm: <strong>${exam.total_score ?? "Đang chờ chấm"}</strong></p>`
+          : ""
+        }
+        ${
+          exam.file_name
+          ? `<a href="/api/exams/${exam.id}/file" target="_blank">Xem file đề</a>`
+          : ""
+        }
+        <br><br>
+        <button class="primary" ${disabled ? "disabled" : ""}
+          data-start="${exam.id}">
+          ${submitted ? "Đã hoàn thành" : started ? "Tiếp tục làm bài" : "Bắt đầu làm bài"}
+        </button>
+      `;
+
+      card.querySelector("[data-start]").addEventListener("click", () => {
+        startExam(exam.id);
+      });
+
+      list.appendChild(card);
+    });
+
+  } catch (error) {
+    list.innerHTML = `
+      <div class="card error">${escapeHTML(error.message)}</div>`;
+  }
+}
+
+async function startExam(id) {
+  if (currentExam) {
+    return message("Bạn đang làm một bài kiểm tra.", "error");
+  }
+
+  try {
+    const data = await api(`/student/exams/${id}/start`, {
+      method: "POST",
+      body: JSON.stringify({})
+    });
+
+    currentExam = data.exam;
+    currentQuestions = data.questions;
+    submissionId = data.submissionId;
+
+    const start = new Date(data.startedAt || Date.now()).getTime();
+    deadline = start + data.durationMinutes * 60 * 1000;
+
+    document.getElementById("examTitle").textContent =
+      data.exam.title;
+
+    document.getElementById("examInfo").textContent =
+      data.exam.subject + " | " + data.durationMinutes + " phút";
+
+    document.getElementById("fileArea").innerHTML =
+      data.exam.fileAvailable
+      ? `<p><a href="/api/exams/${id}/file" target="_blank">📎 Mở file đề kiểm tra</a></p>`
+      : "";
+
+    renderQuestions();
+
+    document.getElementById("submitButton").disabled = false;
+
+    document.querySelectorAll(".page").forEach(p => {
+      p.classList.remove("active");
+    });
+
+    document.getElementById("doing").classList.add("active");
+
+    startTimer();
+
+  } catch (error) {
+    message(error.message, "error");
+  }
+}
+
+function renderQuestions() {
+  const container = document.getElementById("questionList");
+  container.innerHTML = "";
+
+  if (!currentQuestions.length) {
+    container.innerHTML = `
+      <div class="question">
+        <p>Đề được đính kèm dưới dạng file. Hãy mở file đề và hoàn thành bài theo hướng dẫn của giáo viên.</p>
+      </div>`;
+    return;
+  }
+
+  currentQuestions.forEach((q, index) => {
+    const div = document.createElement("div");
+    div.className = "question";
+
+    let html = `
+      <h3>Câu ${index + 1}: ${escapeHTML(q.content)}</h3>
+      <p class="muted">${q.points} điểm</p>
+    `;
+
+    if (q.question_type === "multiple_choice") {
+      html += q.options.map((option, i) => {
+        const letter = String.fromCharCode(65 + i);
+
+        return `
+          <label>
+            <input type="radio"
+              name="q_${q.id}"
+              value="${letter}">
+            ${letter}. ${escapeHTML(option)}
+          </label>`;
+      }).join("");
+    }
+
+    if (q.question_type === "true_false") {
+      html += `
+        <label><input type="radio" name="q_${q.id}" value="true"> Đúng</label>
+        <label><input type="radio" name="q_${q.id}" value="false"> Sai</label>`;
+    }
+
+    if (q.question_type === "essay") {
+      html += `
+        <textarea id="q_${q.id}" rows="5"
+          placeholder="Nhập câu trả lời của bạn..."></textarea>`;
+    }
+
+    div.innerHTML = html;
+    container.appendChild(div);
+  });
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+
+  function update() {
+    const remaining = Math.max(0, deadline - Date.now());
+    const minutes = Math.floor(remaining / 60000);
+    const seconds = Math.floor((remaining % 60000) / 1000);
+
+    document.getElementById("timer").textContent =
+      String(minutes).padStart(2, "0") + ":" +
+      String(seconds).padStart(2, "0");
+
+    if (remaining <= 0) {
+      clearInterval(timerInterval);
+      submitExam(true);
+    }
+  }
+
+  update();
+  timerInterval = setInterval(update, 1000);
+}
+
+function collectAnswers() {
+  const answers = {};
+
+  currentQuestions.forEach(q => {
+    if (q.question_type === "essay") {
+      answers[String(q.id)] =
+        document.getElementById("q_" + q.id)?.value || "";
+    } else {
+      const selected = document.querySelector(
+        `input[name="q_${q.id}"]:checked`
+      );
+
+      if (selected) {
+        answers[String(q.id)] =
+          q.question_type === "true_false"
+            ? selected.value === "true"
+            : selected.value;
+      }
+    }
+  });
+
+  return answers;
+}
+
+async function submitExam(auto = false) {
+  if (!currentExam || submitting) return;
+
+  if (!auto && !confirm("Bạn chắc chắn muốn nộp bài?")) {
+    return;
+  }
+
+  submitting = true;
+
+  const button = document.getElementById("submitButton");
+  button.disabled = true;
+  button.textContent = "Đang nộp bài...";
+
+  try {
+    const data = await api(
+      `/student/exams/${currentExam.id}/submit`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          answers: collectAnswers()
+        })
+      }
+    );
+
+    clearInterval(timerInterval);
+
+    const result = data.result;
+
+    alert(
+      data.message +
+      (result.total_score !== null
+        ? "\nĐiểm: " + result.total_score
+        : "\nBài đang chờ giáo viên chấm tự luận.")
+    );
+
+    currentExam = null;
+    currentQuestions = [];
+    submissionId = null;
+    submitting = false;
+
+    openPage("results");
+    refreshOverview();
+
+  } catch (error) {
+    submitting = false;
+    button.disabled = false;
+    button.textContent = "📤 Nộp bài kiểm tra";
+    message(error.message, "error");
+  }
+}
+
+async function loadResults() {
+  const tbody = document.getElementById("resultList");
+  tbody.innerHTML = "<tr><td colspan='5'>Đang tải...</td></tr>";
+
+  try {
+    const data = await api("/student/results");
+
+    tbody.innerHTML = "";
+
+    if (!data.results.length) {
+      tbody.innerHTML =
+        "<tr><td colspan='5'>Bạn chưa nộp bài kiểm tra nào.</td></tr>";
+      return;
+    }
+
+    data.results.forEach(r => {
+      const tr = document.createElement("tr");
+
+      tr.innerHTML = `
+        <td>${escapeHTML(r.title)}</td>
+        <td>${escapeHTML(r.subject)}</td>
+        <td><strong>${r.total_score === null ? "Chờ chấm" : escapeHTML(r.total_score)}</strong></td>
+        <td>${r.status === "pending_review" ? "Đang chờ chấm" : "Đã hoàn thành"}</td>
+        <td>${r.submitted_at ? new Date(r.submitted_at).toLocaleString("vi-VN") : ""}</td>
+      `;
+
+      tbody.appendChild(tr);
+    });
+
+  } catch (error) {
+    tbody.innerHTML =
+      `<tr><td colspan="5">${escapeHTML(error.message)}</td></tr>`;
+  }
+}
+
+async function loadNotices() {
+  const container = document.getElementById("noticeList");
+  container.innerHTML = "Đang tải thông báo...";
+
+  try {
+    const data = await api("/student/notices");
+
+    container.innerHTML = "";
+
+    if (!data.notices.length) {
+      container.textContent = "Chưa có thông báo từ giáo viên.";
+      return;
+    }
+
+    data.notices.forEach(n => {
+      const div = document.createElement("div");
+      div.className = "notice";
+
+      div.innerHTML = `
+        <h3>${escapeHTML(n.title)}</h3>
+        <p>${escapeHTML(n.content).replace(/\n/g,"<br>")}</p>
+        <small>Giáo viên: ${escapeHTML(n.teacher_name)}
+        | ${new Date(n.created_at).toLocaleString("vi-VN")}</small>
+      `;
+
+      container.appendChild(div);
+    });
+
+  } catch (error) {
+    container.textContent = error.message;
+  }
+}
+
+async function logout() {
+  if (!confirm("Bạn muốn đăng xuất?")) return;
+
+  try {
+    await api("/auth/logout", {method:"POST"});
+  } finally {
+    location.href = "/index.html";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    await loadProfile();
+    await loadExams();
+    await loadNotices();
+  } catch (error) {
+    message(error.message, "error");
+  }
+});
+</script>
+
+</body>
+</html>
+<a href="bai-kiem-tra.html">📝 Bài kiểm tra</a>
+
+<a href="ket-qua.html">🏆 Kết quả học tập</a>

@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EduSmart12 - Kết quả học tập</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f1f5fb;color:#172b4d}
+.sidebar{position:fixed;inset:0 auto 0 0;width:230px;background:#192957;color:white;padding:25px 15px}
+.brand{font-size:23px;font-weight:bold;margin:5px 8px 35px}
+.brand span{color:#55a0ff}
+.sidebar button{display:block;width:100%;padding:14px 12px;margin:5px 0;border:0;border-radius:8px;background:transparent;color:white;text-align:left;cursor:pointer}
+.sidebar button:hover,.sidebar button.active{background:#2864ed}
+.main{margin-left:230px;padding:25px}
+.topbar,.card{background:white;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 3px 15px #00000008}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px}
+h2{margin:0 0 15px}
+.muted{color:#71819a;line-height:1.6}
+button.primary{background:#2563eb;color:white;border:0;border-radius:7px;padding:11px 16px;cursor:pointer;font-weight:bold}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:20px}
+.stat{background:white;padding:22px;border-radius:12px}
+.stat strong{display:block;font-size:27px;color:#2563eb;margin-top:10px}
+.table-wrap{overflow-x:auto;margin-top:20px}
+table{width:100%;border-collapse:collapse;min-width:600px}
+th,td{text-align:left;padding:14px;border-bottom:1px solid #e5eaf1}
+th{background:#f6f8fc}
+.badge{display:inline-block;padding:6px 10px;border-radius:20px;font-size:12px}
+.done{background:#dcfce7;color:#15803d}
+.pending{background:#fff7ed;color:#c2410c}
+.error{color:#dc2626}
+@media(max-width:650px){
+ .sidebar{width:65px;padding:15px 6px}
+ .brand{font-size:13px;overflow:hidden}
+ .sidebar button{font-size:0;text-align:center;padding:14px 2px}
+ .sidebar button::first-letter{font-size:19px}
+ .main{margin-left:65px;padding:12px}
+ .topbar{align-items:flex-start;flex-direction:column}
+ .stats{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+ <div class="brand">EduSmart<span>12</span></div>
+ <button onclick="location.href='dashboard.html'">🏠 Tổng quan</button>
+ <button onclick="location.href='bai-kiem-tra.html'">📝 Bài kiểm tra</button>
+ <button class="active">🏆 Kết quả</button>
+ <button onclick="location.href='dashboard.html'">👤 Tài khoản</button>
+ <button onclick="logout()">🚪 Đăng xuất</button>
+</aside>
+
+<main class="main">
+ <header class="topbar">
+  <strong>EduSmart12 - Kết quả học tập</strong>
+  <span id="studentName">Đang tải tài khoản...</span>
+ </header>
+
+ <section class="stats">
+  <div class="stat">📋 Tổng bài đã nộp<strong id="total">0</strong></div>
+  <div class="stat">🏆 Bài đã có điểm<strong id="graded">0</strong></div>
+  <div class="stat">⏳ Đang chờ chấm<strong id="pending">0</strong></div>
+ </section>
+
+ <section class="card">
+  <h2>🏆 Bảng kết quả kiểm tra</h2>
+  <p class="muted">Theo dõi điểm số và tình trạng các bài kiểm tra bạn đã nộp.</p>
+  <button class="primary" onclick="loadResults()">↻ Cập nhật kết quả</button>
+
+  <div id="message"></div>
+
+  <div class="table-wrap">
+   <table>
+    <thead>
+     <tr>
+      <th>STT</th>
+      <th>Tên bài kiểm tra</th>
+      <th>Môn học</th>
+      <th>Điểm</th>
+      <th>Trạng thái</th>
+      <th>Thời gian nộp</th>
+     </tr>
+    </thead>
+    <tbody id="resultList">
+     <tr><td colspan="6">Đang tải dữ liệu...</td></tr>
+    </tbody>
+   </table>
+  </div>
+ </section>
+
+ <section class="card">
+  <h2>📊 Tổng kết học tập</h2>
+  <p>Điểm trung bình các bài đã được chấm:</p>
+  <h2 id="average" style="color:#2563eb">0</h2>
+  <p class="muted">Chỉ tính những bài đã được hệ thống ghi nhận điểm.</p>
+ </section>
+</main>
+
+<script>
+const API="/api";
+
+async function api(url,options={}){
+ const response=await fetch(API+url,{
+  credentials:"same-origin",
+  ...options,
+  headers:{
+   ...(options.body?{"Content-Type":"application/json"}:{}),
+   ...options.headers
+  }
+ });
+
+ const data=await response.json().catch(()=>({}));
+
+ if(response.status===401){
+  location.href="dang-nhap.html";
+  throw Error("Phiên đăng nhập đã hết hạn.");
+ }
+
+ if(!response.ok){
+  throw Error(data.error||data.message||"Không tải được dữ liệu.");
+ }
+
+ return data;
+}
+
+function esc(value){
+ return String(value??"").replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ })[c]);
+}
+
+function formatDate(value){
+ if(!value)return "—";
+ const date=new Date(value);
+ return isNaN(date.getTime())?"—":date.toLocaleString("vi-VN");
+}
+
+function showMessage(text){
+ document.getElementById("message").textContent=text;
+}
+
+async function loadProfile(){
+ const data=await api("/auth/me");
+
+ if(data.user.role!=="student"){
+  location.href="dang-nhap.html";
+  return;
+ }
+
+ document.getElementById("studentName").textContent=
+  data.user.fullName||data.user.username;
+}
+
+async function loadResults(){
+ const tbody=document.getElementById("resultList");
+ tbody.innerHTML="<tr><td colspan='6'>Đang tải kết quả...</td></tr>";
+
+ try{
+  const data=await api("/student/results");
+  const results=data.results||[];
+
+  document.getElementById("total").textContent=results.length;
+
+  const graded=results.filter(r=>r.total_score!==null&&r.total_score!==undefined);
+  const pending=results.length-graded.length;
+
+  document.getElementById("graded").textContent=graded.length;
+  document.getElementById("pending").textContent=pending;
+
+  const average=graded.length?
+   graded.reduce((sum,r)=>sum+Number(r.total_score),0)/graded.length:0;
+
+  document.getElementById("average").textContent=
+   graded.length?average.toFixed(2):"Chưa có điểm";
+
+  tbody.innerHTML="";
+
+  if(!results.length){
+   tbody.innerHTML="<tr><td colspan='6'>Bạn chưa nộp bài kiểm tra nào.</td></tr>";
+   return;
+  }
+
+  results.forEach((r,index)=>{
+   const hasScore=r.total_score!==null&&r.total_score!==undefined;
+   const status=r.status==="pending_review"||!hasScore?
+    '<span class="badge pending">Đang chờ chấm</span>':
+    '<span class="badge done">Đã chấm điểm</span>';
+
+   const tr=document.createElement("tr");
+
+   tr.innerHTML=`
+    <td>${index+1}</td>
+    <td><strong>${esc(r.title)}</strong></td>
+    <td>${esc(r.subject)}</td>
+    <td><strong>${hasScore?esc(r.total_score):"—"}</strong></td>
+    <td>${status}</td>
+    <td>${formatDate(r.submitted_at)}</td>
+   `;
+
+   tbody.appendChild(tr);
+  });
+
+ }catch(error){
+  tbody.innerHTML=
+   `<tr><td colspan="6" class="error">${esc(error.message)}</td></tr>`;
+  showMessage(error.message);
+ }
+}
+
+async function logout(){
+ if(!confirm("Bạn muốn đăng xuất?"))return;
+
+ try{
+  await api("/auth/logout",{method:"POST"});
+ }finally{
+  location.href="dang-nhap.html";
+ }
+}
+
+document.addEventListener("DOMContentLoaded",async()=>{
+ try{
+  await loadProfile();
+  await loadResults();
+ }catch(error){
+  showMessage(error.message);
+ }
+});
+</script>
+</body>
+</html>

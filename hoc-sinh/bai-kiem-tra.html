@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EduSmart12 - Bài kiểm tra</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f1f5fb;color:#172b4d}
+.sidebar{position:fixed;inset:0 auto 0 0;width:230px;background:#192957;color:white;padding:25px 15px}
+.brand{font-size:23px;font-weight:bold;margin:5px 8px 35px}
+.brand span{color:#55a0ff}
+.sidebar button{display:block;width:100%;padding:14px 12px;margin:5px 0;border:0;border-radius:8px;background:transparent;color:white;text-align:left;cursor:pointer}
+.sidebar button:hover,.sidebar button.active{background:#2864ed}
+.main{margin-left:230px;padding:25px}
+.topbar,.card{background:white;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 3px 15px #00000008}
+.topbar{display:flex;justify-content:space-between;gap:10px;align-items:center}
+h2{margin:0 0 15px}
+.muted{color:#71819a;line-height:1.6}
+input,select,textarea{padding:11px;border:1px solid #ccd7e6;border-radius:7px;font:inherit}
+button.primary,button.secondary{border:0;border-radius:7px;padding:11px 16px;color:white;cursor:pointer;font-weight:bold}
+.primary{background:#2563eb}
+.secondary{background:#64748b}
+button:disabled{opacity:.5;cursor:not-allowed}
+.filters{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:15px 0}
+.filters input,.filters select{width:100%}
+.exam-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px}
+.exam{background:white;border:1px solid #e1e8f2;border-radius:12px;padding:20px}
+.exam h3{margin-top:0}
+.tag{display:inline-block;background:#e9f1ff;color:#2563eb;padding:5px 9px;border-radius:20px;font-size:12px;margin:3px}
+.question{background:white;border:1px solid #e1e8f2;border-radius:10px;padding:18px;margin:15px 0}
+.question label{display:block;margin:12px 0;cursor:pointer}
+.question input[type=radio]{margin-right:8px}
+.timer{position:sticky;top:5px;background:#fff1f2;color:#dc2626;padding:13px;border-radius:8px;font-weight:bold;z-index:2}
+.hidden{display:none!important}
+#message{margin:12px 0;font-weight:bold}
+.error{color:#dc2626}
+.success{color:#15803d}
+@media(max-width:650px){.sidebar{width:65px;padding:15px 6px}.brand{font-size:13px;overflow:hidden}.sidebar button{font-size:0;text-align:center;padding:14px 2px}.sidebar button::first-letter{font-size:19px}.main{margin-left:65px;padding:12px}.filters{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+ <div class="brand">EduSmart<span>12</span></div>
+ <button onclick="location.href='dashboard.html'">🏠 Tổng quan</button>
+ <button class="active">📝 Bài kiểm tra</button>
+ <button onclick="location.href='ket-qua.html'">🏆 Kết quả</button>
+ <button onclick="location.href='dashboard.html'">👤 Tài khoản</button>
+ <button onclick="logout()">🚪 Đăng xuất</button>
+</aside>
+
+<main class="main">
+ <header class="topbar">
+  <strong>EduSmart12 - Bài kiểm tra</strong>
+  <span id="studentName">Đang tải tài khoản...</span>
+ </header>
+
+ <section id="listSection">
+  <div class="card">
+   <h2>📝 Bài kiểm tra được giao</h2>
+   <p class="muted">Danh sách đề kiểm tra do giáo viên giao cho lớp của bạn.</p>
+   <div class="filters">
+    <input id="search" placeholder="🔎 Tìm tên bài kiểm tra..." oninput="renderExams()">
+    <select id="subject" onchange="renderExams()">
+     <option value="">Tất cả môn học</option>
+     <option>Toán học</option>
+     <option>Ngữ văn</option>
+     <option>Tiếng Anh</option>
+     <option>Vật lý</option>
+     <option>Hóa học</option>
+     <option>Sinh học</option>
+     <option>Lịch sử</option>
+     <option>Địa lý</option>
+    </select>
+   </div>
+   <button class="primary" onclick="loadExams()">↻ Làm mới</button>
+   <div id="message"></div>
+  </div>
+  <div class="exam-grid" id="examList">
+   <div class="card">Đang tải bài kiểm tra...</div>
+  </div>
+ </section>
+
+ <section id="doingSection" class="hidden">
+  <div class="card">
+   <div class="timer">⏱ Thời gian còn lại: <span id="timer">--:--</span></div>
+   <h2 id="examTitle">Bài kiểm tra</h2>
+   <p class="muted" id="examInfo"></p>
+   <div id="fileArea"></div>
+   <div id="questions"></div>
+   <button class="primary" id="submitBtn" onclick="submitExam()">📤 Nộp bài</button>
+   <button class="secondary" onclick="backToList()">Quay lại</button>
+  </div>
+ </section>
+</main>
+
+<script>
+const API="/api";
+let exams=[];
+let currentExam=null;
+let questions=[];
+let timerInterval=null;
+let deadline=0;
+let submitting=false;
+
+async function api(url,options={}){
+ const response=await fetch(API+url,{
+  credentials:"same-origin",
+  ...options,
+  headers:{
+   ...(options.body?{"Content-Type":"application/json"}:{}),
+   ...options.headers
+  }
+ });
+ const data=await response.json().catch(()=>({}));
+ if(response.status===401){
+  location.href="dang-nhap.html";
+  throw Error("Vui lòng đăng nhập lại.");
+ }
+ if(!response.ok) throw Error(data.error||data.message||"Có lỗi xảy ra.");
+ return data;
+}
+
+function esc(value){
+ return String(value??"").replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ })[c]);
+}
+
+function showMessage(text,type="success"){
+ const el=document.getElementById("message");
+ el.textContent=text;
+ el.className=type;
+}
+
+async function init(){
+ try{
+  const data=await api("/auth/me");
+  if(data.user.role!=="student"){
+   location.href="dang-nhap.html";
+   return;
+  }
+  document.getElementById("studentName").textContent=
+   data.user.fullName||data.user.username;
+  await loadExams();
+ }catch(e){showMessage(e.message,"error");}
+}
+
+async function loadExams(){
+ const list=document.getElementById("examList");
+ list.innerHTML="<div class='card'>Đang tải...</div>";
+ try{
+  const data=await api("/student/exams");
+  exams=data.exams||[];
+  renderExams();
+ }catch(e){
+  list.innerHTML=`<div class="card error">${esc(e.message)}</div>`;
+ }
+}
+
+function renderExams(){
+ const keyword=document.getElementById("search").value.toLowerCase().trim();
+ const subject=document.getElementById("subject").value;
+ const list=document.getElementById("examList");
+ const filtered=exams.filter(e=>
+  String(e.title||"").toLowerCase().includes(keyword)&&
+  (!subject||e.subject===subject)
+ );
+
+ list.innerHTML="";
+ if(!filtered.length){
+  list.innerHTML="<div class='card'>Không tìm thấy bài kiểm tra phù hợp.</div>";
+  return;
+ }
+
+ filtered.forEach(e=>{
+  const submitted=Boolean(e.submitted_at);
+  const expired=e.ends_at&&Date.now()>new Date(e.ends_at).getTime();
+  const notOpen=e.starts_at&&Date.now()<new Date(e.starts_at).getTime();
+  const status=submitted?"Đã nộp":expired?"Đã hết hạn":notOpen?"Chưa mở":"Có thể làm bài";
+  const disabled=submitted||expired||notOpen;
+
+  const div=document.createElement("div");
+  div.className="exam";
+  div.innerHTML=`
+   <h3>${esc(e.title)}</h3>
+   <span class="tag">${esc(e.subject)}</span>
+   <span class="tag">${esc(e.class_name)}</span>
+   <p>⏱ Thời gian: ${Number(e.duration_minutes)||45} phút</p>
+   <p>📝 Số câu: ${Number(e.question_count)||0}</p>
+   <p>📎 ${e.file_name?"Có file đề":"Không có file đính kèm"}</p>
+   <p>Trạng thái: <strong>${status}</strong></p>
+   ${e.file_name?`<a href="/api/exams/${encodeURIComponent(e.id)}/file" target="_blank">Xem file đề</a>`:""}
+   <br><br>
+   <button class="primary" ${disabled?"disabled":""}>${submitted?"Đã hoàn thành":expired?"Đã hết hạn":notOpen?"Chưa mở":"Bắt đầu làm bài"}</button>
+  `;
+  div.querySelector("button").addEventListener("click",()=>startExam(e.id));
+  list.appendChild(div);
+ });
+}
+
+async function startExam(id){
+ if(currentExam)return;
+ try{
+  const data=await api(`/student/exams/${encodeURIComponent(id)}/start`,{
+   method:"POST",body:JSON.stringify({})
+  });
+
+  currentExam=data.exam;
+  questions=data.questions||[];
+  const started=new Date(data.startedAt||Date.now()).getTime();
+  deadline=started+(Number(data.durationMinutes)||45)*60000;
+
+  document.getElementById("examTitle").textContent=currentExam.title;
+  document.getElementById("examInfo").textContent=
+   `${currentExam.subject} - ${data.durationMinutes} phút`;
+
+  document.getElementById("fileArea").innerHTML=
+   data.exam.fileAvailable?
+   `<p><a href="/api/exams/${encodeURIComponent(id)}/file" target="_blank">📎 Mở file đề kiểm tra</a></p>`:"";
+
+  renderQuestions();
+  document.getElementById("listSection").classList.add("hidden");
+  document.getElementById("doingSection").classList.remove("hidden");
+  document.getElementById("submitBtn").disabled=false;
+  startTimer();
+ }catch(e){showMessage(e.message,"error");}
+}
+
+function renderQuestions(){
+ const container=document.getElementById("questions");
+ container.innerHTML="";
+
+ if(!questions.length){
+  container.innerHTML="<div class='question'>Đề kiểm tra được đính kèm bằng file. Hãy mở file đề để xem nội dung.</div>";
+  return;
+ }
+
+ questions.forEach((q,i)=>{
+  const div=document.createElement("div");
+  div.className="question";
+  let html=`<h3>Câu ${i+1}: ${esc(q.content)}</h3>`;
+
+  if(q.question_type==="multiple_choice"){
+   html+=(q.options||[]).map((op,j)=>{
+    const letter=String.fromCharCode(65+j);
+    return `<label><input type="radio" name="q_${q.id}" value="${letter}">${letter}. ${esc(op)}</label>`;
+   }).join("");
+  }else if(q.question_type==="true_false"){
+   html+=`
+    <label><input type="radio" name="q_${q.id}" value="true">Đúng</label>
+    <label><input type="radio" name="q_${q.id}" value="false">Sai</label>`;
+  }else{
+   html+=`<textarea id="q_${q.id}" rows="5" placeholder="Nhập câu trả lời..."></textarea>`;
+  }
+
+  div.innerHTML=html;
+  container.appendChild(div);
+ });
+}
+
+function startTimer(){
+ clearInterval(timerInterval);
+ function tick(){
+  const left=Math.max(0,deadline-Date.now());
+  document.getElementById("timer").textContent=
+   String(Math.floor(left/60000)).padStart(2,"0")+":"+
+   String(Math.floor(left%60000/1000)).padStart(2,"0");
+  if(left<=0){
+   clearInterval(timerInterval);
+   submitExam(true);
+  }
+ }
+ tick();
+ timerInterval=setInterval(tick,1000);
+}
+
+function collectAnswers(){
+ const answers={};
+ questions.forEach(q=>{
+  if(q.question_type==="essay"){
+   answers[String(q.id)]=document.getElementById("q_"+q.id)?.value||"";
+  }else{
+   const selected=document.querySelector(`input[name="q_${q.id}"]:checked`);
+   if(selected){
+    answers[String(q.id)]=q.question_type==="true_false"?
+     selected.value==="true":selected.value;
+   }
+  }
+ });
+ return answers;
+}
+
+async function submitExam(auto=false){
+ if(!currentExam||submitting)return;
+ if(!auto&&!confirm("Bạn chắc chắn muốn nộp bài?"))return;
+
+ submitting=true;
+ const btn=document.getElementById("submitBtn");
+ btn.disabled=true;
+ btn.textContent="Đang nộp bài...";
+
+ try{
+  const data=await api(`/student/exams/${encodeURIComponent(currentExam.id)}/submit`,{
+   method:"POST",
+   body:JSON.stringify({answers:collectAnswers()})
+  });
+  clearInterval(timerInterval);
+  const score=data.result?.total_score;
+  alert(data.message||"Nộp bài thành công!"+
+   (score==null?"":" Điểm: "+score));
+
+  currentExam=null;
+  questions=[];
+  location.href="ket-qua.html";
+ }catch(e){
+  submitting=false;
+  btn.disabled=false;
+  btn.textContent="📤 Nộp bài";
+  showMessage(e.message,"error");
+ }
+}
+
+function backToList(){
+ if(!confirm("Bạn muốn rời bài kiểm tra?"))return;
+ location.href="dashboard.html";
+}
+
+async function logout(){
+ if(!confirm("Bạn muốn đăng xuất?"))return;
+ try{await api("/auth/logout",{method:"POST"});}
+ finally{location.href="dang-nhap.html";}
+}
+
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,1625 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduSmart12 - Quản lý giáo viên</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f1f5f9;
+    color: #263247;
+}
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #172554;
+    color: white;
+    padding: 24px 14px;
+    overflow-y: auto;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    padding: 10px;
+    margin-bottom: 30px;
+}
+
+.logo span {
+    color: #60a5fa;
+}
+
+.sidebar h4 {
+    color: #94a3b8;
+    font-size: 12px;
+    padding: 10px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 14px;
+    margin: 5px 0;
+    color: #dbeafe;
+    text-decoration: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #2563eb;
+    color: white;
+}
+
+.sidebar .logout {
+    background: #991b1b;
+    margin-top: 25px;
+}
+
+.main {
+    margin-left: 250px;
+    padding: 25px;
+    min-height: 100vh;
+}
+
+.topbar {
+    background: white;
+    border-radius: 12px;
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.profile {
+    color: #2563eb;
+    font-weight: bold;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.welcome {
+    margin-bottom: 25px;
+}
+
+.welcome h1 {
+    margin-bottom: 8px;
+}
+
+.welcome p {
+    color: #64748b;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card,
+.content-card {
+    background: white;
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: 0 2px 8px #00000008;
+}
+
+.stat-card p {
+    color: #64748b;
+    margin-bottom: 12px;
+}
+
+.stat-card h2 {
+    color: #2563eb;
+    font-size: 30px;
+}
+
+.content-card {
+    margin-bottom: 22px;
+}
+
+.content-card h3 {
+    margin-bottom: 18px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    font-size: 14px;
+    outline: none;
+    background: white;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #2563eb;
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.btn {
+    border: none;
+    background: #2563eb;
+    color: white;
+    padding: 11px 16px;
+    border-radius: 7px;
+    cursor: pointer;
+    margin: 3px;
+}
+
+.btn:hover {
+    opacity: .88;
+}
+
+.green { background: #16a34a; }
+.red { background: #dc2626; }
+.gray { background: #64748b; }
+.orange { background: #d97706; }
+
+.small {
+    padding: 7px 10px;
+    font-size: 12px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+th, td {
+    text-align: left;
+    padding: 13px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+    background: #f8fafc;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+.status {
+    background: #dcfce7;
+    color: #15803d;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.question-box {
+    background: #f8fafc;
+    border: 1px solid #dbe3ef;
+    padding: 18px;
+    margin: 15px 0;
+    border-radius: 10px;
+}
+
+.question-box h4 {
+    margin-bottom: 14px;
+    color: #1d4ed8;
+}
+
+.option-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 0;
+}
+
+.option-row input {
+    margin: 0;
+}
+
+.notice-item {
+    padding: 17px;
+    background: #f8fafc;
+    border-left: 4px solid #2563eb;
+    border-radius: 8px;
+    margin: 12px 0;
+    overflow-wrap: anywhere;
+}
+
+.notice-item h4 {
+    margin-bottom: 10px;
+}
+
+.notice-item p {
+    white-space: pre-wrap;
+    line-height: 1.6;
+}
+
+.notice-item small {
+    color: #64748b;
+}
+
+.file-info {
+    padding: 10px;
+    background: #eff6ff;
+    border-radius: 7px;
+    margin: 10px 0;
+    color: #1d4ed8;
+    font-size: 13px;
+}
+
+.result {
+    margin-top: 12px;
+    font-weight: bold;
+    color: #15803d;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 20px 0;
+}
+
+@media(max-width: 900px) {
+    .sidebar { width: 190px; }
+    .main { margin-left: 190px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media(max-width: 600px) {
+    .sidebar { width: 65px; padding: 10px 5px; }
+    .logo { font-size: 12px; }
+    .sidebar h4, .sidebar a span { display: none; }
+    .sidebar a { text-align: center; font-size: 20px; }
+    .main { margin-left: 65px; padding: 12px; }
+    .stats, .form-grid { grid-template-columns: 1fr; }
+    .topbar { padding: 13px; }
+    .topbar h2 { font-size: 16px; }
+    .content-card { padding: 14px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">EduSmart<span>12</span></div>
+
+    <h4>QUẢN LÝ GIÁO VIÊN</h4>
+
+    <a class="active" onclick="showPage('home',this)">
+        🏠 <span>Tổng quan</span>
+    </a>
+
+    <a onclick="showPage('classes',this)">
+        📚 <span>Lớp học</span>
+    </a>
+
+    <a onclick="showPage('students',this)">
+        👨‍🎓 <span>Học sinh</span>
+    </a>
+
+    <a onclick="showPage('lessons',this)">
+        📖 <span>Bài giảng</span>
+    </a>
+
+    <a onclick="showPage('tests',this)">
+        📝 <span>Bài kiểm tra</span>
+    </a>
+
+    <a onclick="showPage('notifications',this)">
+        🔔 <span>Thông báo</span>
+    </a>
+
+    <a onclick="showPage('account',this)">
+        👤 <span>Tài khoản</span>
+    </a>
+
+    <a class="logout" href="dang-nhap.html">
+        🚪 <span>Đăng xuất</span>
+    </a>
+
+</aside>
+
+
+<main class="main">
+
+    <header class="topbar">
+        <h2 id="pageTitle">Tổng quan</h2>
+        <div class="profile">👤 Giáo viên</div>
+    </header>
+
+
+    <!-- TỔNG QUAN -->
+
+    <section id="home" class="page active">
+
+        <div class="welcome">
+            <h1>Chào mừng đến EduSmart12!</h1>
+            <p>Hệ thống quản lý giảng dạy dành cho giáo viên.</p>
+        </div>
+
+        <div class="stats">
+
+            <div class="stat-card">
+                <p>📚 Lớp học</p>
+                <h2 id="classCount">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>👨‍🎓 Học sinh</p>
+                <h2 id="studentCount">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>📖 Bài giảng</p>
+                <h2 id="lessonCount">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>📝 Bài kiểm tra</p>
+                <h2 id="testCount">0</h2>
+            </div>
+
+        </div>
+
+        <div class="content-card">
+            <h3>Hoạt động gần đây</h3>
+            <div id="recentActivity">
+                Chưa có hoạt động.
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- QUẢN LÝ LỚP -->
+
+    <section id="classes" class="page">
+
+        <div class="content-card">
+
+            <h3>📚 Quản lý lớp học</h3>
+
+            <div class="form-group">
+                <label>Tên lớp học mới</label>
+                <input id="newClass" placeholder="Ví dụ: 11A13">
+            </div>
+
+            <button class="btn" onclick="addClass()">
+                + Thêm lớp
+            </button>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên lớp</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="classTable"></tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- HỌC SINH -->
+
+    <section id="students" class="page">
+
+        <div class="content-card">
+            <h3>👨‍🎓 Quản lý học sinh</h3>
+
+            <p>Dữ liệu học sinh sẽ được kết nối từ hệ thống tài khoản học sinh.</p>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Họ tên</th>
+                            <th>Lớp</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentTable"></tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- BÀI GIẢNG -->
+
+    <section id="lessons" class="page">
+
+        <div class="content-card">
+
+            <h3>📖 Đăng bài giảng</h3>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Tên bài giảng</label>
+                    <input id="lessonTitle" placeholder="Nhập tên bài">
+                </div>
+
+                <div class="form-group">
+                    <label>Môn học</label>
+                    <select id="lessonSubject">
+                        <option>Toán học</option>
+                        <option>Ngữ văn</option>
+                        <option>Tiếng Anh</option>
+                        <option>Vật lý</option>
+                        <option>Hóa học</option>
+                        <option>Sinh học</option>
+                        <option>Lịch sử</option>
+                        <option>Địa lý</option>
+                        <option>Tin học</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Lớp học</label>
+                    <select id="lessonClass" class="class-options">
+                        <option value="all">Tất cả lớp</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Tài liệu bài giảng</label>
+                    <input type="file" id="lessonFile"
+                        accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png">
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label>Nội dung bài giảng</label>
+                <textarea id="lessonContent"
+                    placeholder="Nhập nội dung bài giảng..."></textarea>
+            </div>
+
+            <button class="btn green" onclick="publishLesson()">
+                📤 Đăng bài giảng
+            </button>
+
+            <p class="result" id="lessonResult"></p>
+
+        </div>
+
+        <div class="content-card">
+            <h3>Danh sách bài giảng</h3>
+            <div id="lessonList"></div>
+        </div>
+
+    </section>
+
+
+    <!-- BÀI KIỂM TRA -->
+
+    <section id="tests" class="page">
+
+        <div class="content-card">
+
+            <h3>📝 TẠO VÀ ĐĂNG BÀI KIỂM TRA</h3>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Tên bài kiểm tra</label>
+                    <input id="testTitle"
+                        placeholder="Ví dụ: Kiểm tra giữa học kỳ">
+                </div>
+
+                <div class="form-group">
+                    <label>Môn học</label>
+                    <select id="testSubject">
+                        <option>Toán học</option>
+                        <option>Ngữ văn</option>
+                        <option>Tiếng Anh</option>
+                        <option>Vật lý</option>
+                        <option>Hóa học</option>
+                        <option>Sinh học</option>
+                        <option>Lịch sử</option>
+                        <option>Địa lý</option>
+                        <option>Tin học</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Lớp áp dụng</label>
+                    <select id="testClass" class="class-options">
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Thời gian làm bài (phút)</label>
+                    <input id="testDuration"
+                        type="number" min="1" value="45">
+                </div>
+
+                <div class="form-group">
+                    <label>Ngày mở bài</label>
+                    <input type="datetime-local" id="testStart">
+                </div>
+
+                <div class="form-group">
+                    <label>Hạn nộp bài</label>
+                    <input type="datetime-local" id="testDeadline">
+                </div>
+
+            </div>
+
+            <hr>
+
+            <h3>📎 Tải đề kiểm tra có sẵn</h3>
+
+            <p style="color:#64748b;margin-bottom:12px">
+                Có thể tải đề PDF, Word hoặc hình ảnh lên hệ thống.
+            </p>
+
+            <div class="form-group">
+                <label>Chọn file đề kiểm tra</label>
+                <input type="file" id="testFile"
+                    accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png">
+            </div>
+
+            <div id="testFileInfo" class="file-info">
+                Chưa chọn file.
+            </div>
+
+            <hr>
+
+            <h3>✏️ TẠO CÂU HỎI TRỰC TIẾP</h3>
+
+            <div id="questionList"></div>
+
+            <button class="btn" onclick="addQuestion('mcq')">
+                + Trắc nghiệm
+            </button>
+
+            <button class="btn green" onclick="addQuestion('tf')">
+                + Đúng / Sai
+            </button>
+
+            <button class="btn orange" onclick="addQuestion('essay')">
+                + Tự luận
+            </button>
+
+            <hr>
+
+            <button class="btn green" onclick="saveTest()">
+                📤 ĐĂNG BÀI KIỂM TRA
+            </button>
+
+            <button class="btn gray" onclick="resetTestForm()">
+                Làm mới
+            </button>
+
+            <p id="testResult" class="result"></p>
+
+        </div>
+
+        <div class="content-card">
+            <h3>📋 DANH SÁCH BÀI KIỂM TRA ĐÃ ĐĂNG</h3>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tên bài</th>
+                            <th>Môn học</th>
+                            <th>Lớp</th>
+                            <th>Thời gian</th>
+                            <th>Số câu</th>
+                            <th>File</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="testTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- THÔNG BÁO -->
+
+    <section id="notifications" class="page">
+
+        <div class="content-card">
+
+            <h3>🔔 ĐĂNG THÔNG BÁO</h3>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Tiêu đề thông báo</label>
+                    <input id="noticeTitle"
+                        placeholder="Nhập tiêu đề thông báo">
+                </div>
+
+                <div class="form-group">
+                    <label>Đối tượng nhận</label>
+                    <select id="noticeTarget" class="class-options">
+                        <option value="all">Tất cả lớp</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label>Nội dung thông báo</label>
+                <textarea id="noticeContent"
+                    placeholder="Nhập nội dung thông báo..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Đính kèm tài liệu</label>
+                <input type="file" id="noticeFile"
+                    accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+            </div>
+
+            <div id="noticeFileInfo" class="file-info">
+                Chưa chọn tài liệu.
+            </div>
+
+            <button class="btn green" onclick="publishNotice()">
+                📤 ĐĂNG THÔNG BÁO
+            </button>
+
+            <button class="btn gray" onclick="resetNotice()">
+                Làm mới
+            </button>
+
+            <p id="noticeResult" class="result"></p>
+
+        </div>
+
+        <div class="content-card">
+            <h3>📋 LỊCH SỬ THÔNG BÁO</h3>
+            <div id="noticeList"></div>
+        </div>
+
+    </section>
+
+
+    <!-- TÀI KHOẢN -->
+
+    <section id="account" class="page">
+
+        <div class="content-card">
+
+            <h3>👤 TÀI KHOẢN GIÁO VIÊN</h3>
+
+            <p>Hệ thống: EduSmart12</p>
+            <br>
+            <p>Vai trò: Giáo viên</p>
+            <br>
+            <p>Trạng thái: Đang hoạt động</p>
+
+            <br>
+
+            <button class="btn red"
+                onclick="location.href='dang-nhap.html'">
+                Đăng xuất
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+// ====================================
+// HÀM CHUNG
+// ====================================
+
+const DB = {
+    classes: 'edu_teacher_classes',
+    notices: 'edu_teacher_notices',
+    tests: 'edu_teacher_tests',
+    lessons: 'edu_teacher_lessons'
+};
+
+function loadData(key) {
+    try {
+        return JSON.parse(localStorage.getItem(key) || '[]');
+    } catch {
+        return [];
+    }
+}
+
+function saveData(key, data) {
+    localStorage.setItem(key, JSON.stringify(data));
+}
+
+function escapeHTML(value) {
+    return String(value ?? '').replace(/[&<>"']/g, char => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    })[char]);
+}
+
+function showPage(page, element) {
+
+    document.querySelectorAll('.page').forEach(p => {
+        p.classList.remove('active');
+    });
+
+    document.getElementById(page).classList.add('active');
+
+    document.querySelectorAll('.sidebar a').forEach(a => {
+        a.classList.remove('active');
+    });
+
+    element.classList.add('active');
+
+    const titles = {
+        home: 'Tổng quan',
+        classes: 'Quản lý lớp học',
+        students: 'Học sinh',
+        lessons: 'Bài giảng',
+        tests: 'Bài kiểm tra',
+        notifications: 'Thông báo',
+        account: 'Tài khoản'
+    };
+
+    document.getElementById('pageTitle').innerText = titles[page];
+}
+
+
+// ====================================
+// XỬ LÝ FILE ĐÍNH KÈM
+// ====================================
+
+const MAX_FILE_SIZE = 1024 * 1024;
+
+function readFile(input) {
+
+    return new Promise((resolve, reject) => {
+
+        const file = input.files[0];
+
+        if (!file) {
+            resolve(null);
+            return;
+        }
+
+        if (file.size > MAX_FILE_SIZE) {
+            reject(new Error('File vượt quá 1MB. Hãy chọn file nhỏ hơn.'));
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            resolve({
+                name: file.name,
+                type: file.type,
+                data: reader.result
+            });
+        };
+
+        reader.onerror = () => reject(
+            new Error('Không đọc được file.')
+        );
+
+        reader.readAsDataURL(file);
+
+    });
+}
+
+function showFileInfo(inputId, outputId) {
+
+    const input = document.getElementById(inputId);
+    const output = document.getElementById(outputId);
+
+    input.addEventListener('change', () => {
+
+        const file = input.files[0];
+
+        output.innerText = file
+            ? `${file.name} - ${(file.size / 1024).toFixed(1)} KB`
+            : 'Chưa chọn file.';
+
+    });
+}
+
+showFileInfo('testFile', 'testFileInfo');
+showFileInfo('noticeFile', 'noticeFileInfo');
+
+function fileLink(file) {
+
+    if (!file) return 'Không có';
+
+    return `
+        <a href="${file.data}"
+           download="${escapeHTML(file.name)}">
+           Tải file
+        </a>
+    `;
+}
+
+
+// ====================================
+// QUẢN LÝ LỚP HỌC
+// ====================================
+
+let classes = loadData(DB.classes);
+
+function addClass() {
+
+    const input = document.getElementById('newClass');
+    const name = input.value.trim();
+
+    if (!name) {
+        alert('Vui lòng nhập tên lớp!');
+        return;
+    }
+
+    if (classes.some(c => c.name.toLowerCase() === name.toLowerCase())) {
+        alert('Lớp này đã tồn tại!');
+        return;
+    }
+
+    classes.push({
+        id: Date.now(),
+        name
+    });
+
+    saveData(DB.classes, classes);
+
+    input.value = '';
+
+    renderClasses();
+    updateStats();
+}
+
+function deleteClass(id) {
+
+    if (!confirm('Xóa lớp học này?')) return;
+
+    classes = classes.filter(c => c.id !== id);
+
+    saveData(DB.classes, classes);
+
+    renderClasses();
+    updateStats();
+}
+
+function renderClasses() {
+
+    const table = document.getElementById('classTable');
+
+    table.innerHTML = classes.map((c, index) => `
+        <tr>
+            <td>${index + 1}</td>
+            <td>${escapeHTML(c.name)}</td>
+            <td>
+                <button class="btn red small"
+                    onclick="deleteClass(${c.id})">
+                    Xóa
+                </button>
+            </td>
+        </tr>
+    `).join('');
+
+    document.querySelectorAll('.class-options').forEach(select => {
+
+        const current = select.value;
+
+        const isNotice = select.id === 'noticeTarget';
+
+        const options = classes.map(c => `
+            <option value="${escapeHTML(c.name)}">
+                ${escapeHTML(c.name)}
+            </option>
+        `).join('');
+
+        select.innerHTML =
+            (isNotice
+                ? '<option value="all">Tất cả lớp</option>'
+                : select.id === 'lessonClass'
+                    ? '<option value="all">Tất cả lớp</option>'
+                    : ''
+            ) + options;
+
+        if ([...select.options].some(o => o.value === current)) {
+            select.value = current;
+        }
+
+    });
+}
+
+
+// ====================================
+// QUẢN LÝ THÔNG BÁO
+// ====================================
+
+let notices = loadData(DB.notices);
+
+async function publishNotice() {
+
+    const title = document.getElementById('noticeTitle').value.trim();
+    const content = document.getElementById('noticeContent').value.trim();
+    const target = document.getElementById('noticeTarget').value;
+
+    if (!title || !content) {
+        alert('Vui lòng nhập đầy đủ tiêu đề và nội dung!');
+        return;
+    }
+
+    try {
+
+        const file = await readFile(
+            document.getElementById('noticeFile')
+        );
+
+        const notice = {
+            id: Date.now(),
+            title,
+            content,
+            target,
+            file,
+            date: new Date().toLocaleString('vi-VN')
+        };
+
+        notices.unshift(notice);
+
+        saveData(DB.notices, notices);
+
+        resetNotice();
+        renderNotices();
+        updateStats();
+
+        document.getElementById('noticeResult').innerText =
+            'Đã lưu thông báo thành công trên trình duyệt!';
+
+    } catch (error) {
+        alert(error.message);
+    }
+}
+
+function resetNotice() {
+
+    document.getElementById('noticeTitle').value = '';
+    document.getElementById('noticeContent').value = '';
+    document.getElementById('noticeFile').value = '';
+    document.getElementById('noticeFileInfo').innerText =
+        'Chưa chọn tài liệu.';
+}
+
+function renderNotices() {
+
+    const container = document.getElementById('noticeList');
+
+    if (!notices.length) {
+        container.innerHTML = 'Chưa có thông báo.';
+        return;
+    }
+
+    container.innerHTML = notices.map(n => `
+
+        <div class="notice-item">
+
+            <h4>${escapeHTML(n.title)}</h4>
+
+            <p>${escapeHTML(n.content)}</p>
+
+            <br>
+
+            <small>
+                Người nhận:
+                ${escapeHTML(n.target === 'all' ? 'Tất cả lớp' : n.target)}
+                <br>
+                Ngày đăng: ${escapeHTML(n.date)}
+            </small>
+
+            <br><br>
+
+            ${n.file ? fileLink(n.file) : ''}
+
+            <br><br>
+
+            <button class="btn orange small"
+                onclick="editNotice(${n.id})">
+                Sửa
+            </button>
+
+            <button class="btn red small"
+                onclick="deleteNotice(${n.id})">
+                Xóa
+            </button>
+
+        </div>
+
+    `).join('');
+}
+
+function editNotice(id) {
+
+    const n = notices.find(x => x.id === id);
+
+    if (!n) return;
+
+    document.getElementById('noticeTitle').value = n.title;
+    document.getElementById('noticeContent').value = n.content;
+    document.getElementById('noticeTarget').value = n.target;
+
+    deleteNotice(id, true);
+
+    document.getElementById('noticeTitle').scrollIntoView({
+        behavior: 'smooth'
+    });
+}
+
+function deleteNotice(id, skipConfirm = false) {
+
+    if (!skipConfirm && !confirm('Bạn có muốn xóa thông báo?')) return;
+
+    notices = notices.filter(n => n.id !== id);
+
+    saveData(DB.notices, notices);
+    renderNotices();
+}
+
+
+// ====================================
+// QUẢN LÝ BÀI KIỂM TRA
+// ====================================
+
+let tests = loadData(DB.tests);
+let questions = [];
+let editingTestId = null;
+
+function addQuestion(type) {
+
+    questions.push({
+        type,
+        text: '',
+        options: ['', '', '', ''],
+        answer: type === 'tf' ? 'Đúng' : 'A'
+    });
+
+    renderQuestions();
+}
+
+function updateQuestionText(index, value) {
+    questions[index].text = value;
+}
+
+function updateOption(index, optionIndex, value) {
+    questions[index].options[optionIndex] = value;
+}
+
+function updateAnswer(index, value) {
+    questions[index].answer = value;
+}
+
+function removeQuestion(index) {
+    questions.splice(index, 1);
+    renderQuestions();
+}
+
+function renderQuestions() {
+
+    const container = document.getElementById('questionList');
+
+    container.innerHTML = questions.map((q, index) => {
+
+        let typeName = {
+            mcq: 'Trắc nghiệm',
+            tf: 'Đúng / Sai',
+            essay: 'Tự luận'
+        }[q.type];
+
+        let answerHTML = '';
+
+        if (q.type === 'mcq') {
+
+            answerHTML = `
+
+                <p><b>Phương án trả lời:</b></p>
+
+                ${q.options.map((option, i) => `
+                    <div class="option-row">
+                        <b>${String.fromCharCode(65 + i)}.</b>
+                        <input
+                            value="${escapeHTML(option)}"
+                            placeholder="Nhập phương án..."
+                            oninput="updateOption(${index},${i},this.value)">
+                    </div>
+                `).join('')}
+
+                <div class="form-group">
+                    <label>Đáp án đúng</label>
+
+                    <select onchange="updateAnswer(${index},this.value)">
+                        ${['A','B','C','D'].map(a => `
+                            <option value="${a}"
+                                ${q.answer === a ? 'selected' : ''}>
+                                ${a}
+                            </option>
+                        `).join('')}
+                    </select>
+                </div>
+
+            `;
+
+        } else if (q.type === 'tf') {
+
+            answerHTML = `
+
+                <div class="form-group">
+                    <label>Đáp án đúng</label>
+
+                    <select onchange="updateAnswer(${index},this.value)">
+                        <option value="Đúng"
+                            ${q.answer === 'Đúng' ? 'selected' : ''}>
+                            Đúng
+                        </option>
+
+                        <option value="Sai"
+                            ${q.answer === 'Sai' ? 'selected' : ''}>
+                            Sai
+                        </option>
+                    </select>
+                </div>
+
+            `;
+
+        } else {
+
+            answerHTML = `
+                <p style="color:#64748b">
+                    Học sinh sẽ trả lời câu hỏi tự luận.
+                </p>
+            `;
+
+        }
+
+        return `
+
+            <div class="question-box">
+
+                <h4>Câu ${index + 1} - ${typeName}</h4>
+
+                <input
+                    value="${escapeHTML(q.text)}"
+                    placeholder="Nhập nội dung câu hỏi..."
+                    oninput="updateQuestionText(${index},this.value)">
+
+                ${answerHTML}
+
+                <button class="btn red small"
+                    onclick="removeQuestion(${index})">
+                    Xóa câu hỏi
+                </button>
+
+            </div>
+
+        `;
+
+    }).join('');
+}
+
+function resetTestForm() {
+
+    editingTestId = null;
+    questions = [];
+
+    document.getElementById('testTitle').value = '';
+    document.getElementById('testSubject').selectedIndex = 0;
+    document.getElementById('testDuration').value = 45;
+    document.getElementById('testFile').value = '';
+    document.getElementById('testStart').value = '';
+    document.getElementById('testDeadline').value = '';
+
+    renderQuestions();
+
+    document.getElementById('testFileInfo').innerText =
+        'Chưa chọn file.';
+
+    document.getElementById('testResult').innerText = '';
+}
+
+async function saveTest() {
+
+    const title = document.getElementById('testTitle').value.trim();
+    const subject = document.getElementById('testSubject').value;
+    const className = document.getElementById('testClass').value;
+    const duration = Number(document.getElementById('testDuration').value);
+
+    const start = document.getElementById('testStart').value;
+    const deadline = document.getElementById('testDeadline').value;
+
+    if (!title) {
+        alert('Vui lòng nhập tên bài kiểm tra!');
+        return;
+    }
+
+    if (!Number.isInteger(duration) || duration < 1) {
+        alert('Thời gian làm bài không hợp lệ!');
+        return;
+    }
+
+    if (start && deadline && new Date(deadline) <= new Date(start)) {
+        alert('Hạn nộp phải sau thời gian mở bài!');
+        return;
+    }
+
+    if (questions.length === 0 &&
+        !document.getElementById('testFile').files.length &&
+        !editingTestId) {
+        alert('Hãy thêm câu hỏi hoặc tải file đề kiểm tra!');
+        return;
+    }
+
+    for (let i = 0; i < questions.length; i++) {
+
+        const q = questions[i];
+
+        if (!q.text.trim()) {
+            alert(`Bạn chưa nhập nội dung câu ${i + 1}!`);
+            return;
+        }
+
+        if (q.type === 'mcq' && q.options.some(o => !o.trim())) {
+            alert(`Bạn chưa điền đủ phương án câu ${i + 1}!`);
+            return;
+        }
+    }
+
+    try {
+
+        const oldTest = tests.find(t => t.id === editingTestId);
+
+        const selectedFile = await readFile(
+            document.getElementById('testFile')
+        );
+
+        const test = {
+            id: editingTestId || Date.now(),
+            title,
+            subject,
+            className,
+            duration,
+            start,
+            deadline,
+            questions: JSON.parse(JSON.stringify(questions)),
+            file: selectedFile || (oldTest ? oldTest.file : null),
+            date: new Date().toLocaleString('vi-VN')
+        };
+
+        if (editingTestId) {
+
+            tests = tests.map(t =>
+                t.id === editingTestId ? test : t
+            );
+
+        } else {
+
+            tests.unshift(test);
+
+        }
+
+        saveData(DB.tests, tests);
+
+        resetTestForm();
+        renderTests();
+        updateStats();
+
+        document.getElementById('testResult').innerText =
+            'Đã lưu bài kiểm tra thành công!';
+
+    } catch (error) {
+        alert(error.message);
+    }
+}
+
+function renderTests() {
+
+    const tbody = document.getElementById('testTable');
+
+    tbody.innerHTML = tests.map(t => `
+
+        <tr>
+            <td>${escapeHTML(t.title)}</td>
+            <td>${escapeHTML(t.subject)}</td>
+            <td>${escapeHTML(t.className)}</td>
+            <td>${Number(t.duration)} phút</td>
+            <td>${t.questions.length}</td>
+            <td>${t.file ? fileLink(t.file) : 'Không có'}</td>
+
+            <td>
+                <button class="btn small"
+                    onclick="viewTest(${t.id})">
+                    Xem
+                </button>
+
+                <button class="btn orange small"
+                    onclick="editTest(${t.id})">
+                    Sửa
+                </button>
+
+                <button class="btn red small"
+                    onclick="deleteTest(${t.id})">
+                    Xóa
+                </button>
+            </td>
+        </tr>
+
+    `).join('');
+}
+
+function viewTest(id) {
+
+    const t = tests.find(x => x.id === id);
+
+    if (!t) return;
+
+    const detail = t.questions.map((q, i) =>
+        `Câu ${i + 1}: ${q.text}`
+    ).join('\n\n');
+
+    alert(
+        `BÀI KIỂM TRA: ${t.title}\n` +
+        `Môn học: ${t.subject}\n` +
+        `Lớp: ${t.className}\n` +
+        `Thời gian: ${t.duration} phút\n\n` +
+        detail
+    );
+}
+
+function editTest(id) {
+
+    const t = tests.find(x => x.id === id);
+
+    if (!t) return;
+
+    editingTestId = id;
+
+    document.getElementById('testTitle').value = t.title;
+    document.getElementById('testSubject').value = t.subject;
+    document.getElementById('testClass').value = t.className;
+    document.getElementById('testDuration').value = t.duration;
+    document.getElementById('testStart').value = t.start || '';
+    document.getElementById('testDeadline').value = t.deadline || '';
+
+    questions = JSON.parse(JSON.stringify(t.questions));
+
+    renderQuestions();
+
+    document.getElementById('testTitle').scrollIntoView({
+        behavior: 'smooth'
+    });
+}
+
+function deleteTest(id) {
+
+    if (!confirm('Bạn có chắc chắn muốn xóa bài kiểm tra?')) return;
+
+    tests = tests.filter(t => t.id !== id);
+
+    saveData(DB.tests, tests);
+    renderTests();
+    updateStats();
+}
+
+
+// ====================================
+// QUẢN LÝ BÀI GIẢNG
+// ====================================
+
+let lessons = loadData(DB.lessons);
+
+async function publishLesson() {
+
+    const title = document.getElementById('lessonTitle').value.trim();
+    const subject = document.getElementById('lessonSubject').value;
+    const className = document.getElementById('lessonClass').value;
+    const content = document.getElementById('lessonContent').value.trim();
+
+    if (!title || !content) {
+        alert('Vui lòng nhập tên và nội dung bài giảng!');
+        return;
+    }
+
+    try {
+
+        const file = await readFile(
+            document.getElementById('lessonFile')
+        );
+
+        lessons.unshift({
+            id: Date.now(),
+            title,
+            subject,
+            className,
+            content,
+            file,
+            date: new Date().toLocaleString('vi-VN')
+        });
+
+        saveData(DB.lessons, lessons);
+
+        document.getElementById('lessonTitle').value = '';
+        document.getElementById('lessonContent').value = '';
+        document.getElementById('lessonFile').value = '';
+
+        renderLessons();
+        updateStats();
+
+        document.getElementById('lessonResult').innerText =
+            'Đã lưu bài giảng thành công!';
+
+    } catch (error) {
+        alert(error.message);
+    }
+}
+
+function renderLessons() {
+
+    const container = document.getElementById('lessonList');
+
+    if (!lessons.length) {
+        container.innerHTML = 'Chưa có bài giảng.';
+        return;
+    }
+
+    container.innerHTML = lessons.map(l => `
+
+        <div class="notice-item">
+
+            <h4>${escapeHTML(l.title)}</h4>
+
+            <p>${escapeHTML(l.content)}</p>
+
+            <small>
+                ${escapeHTML(l.subject)} |
+                ${escapeHTML(l.className)} |
+                ${escapeHTML(l.date)}
+            </small>
+
+            <br><br>
+
+            ${l.file ? fileLink(l.file) : ''}
+
+            <button class="btn red small"
+                onclick="deleteLesson(${l.id})">
+                Xóa
+            </button>
+
+        </div>
+
+    `).join('');
+}
+
+function deleteLesson(id) {
+
+    if (!confirm('Xóa bài giảng này?')) return;
+
+    lessons = lessons.filter(l => l.id !== id);
+
+    saveData(DB.lessons, lessons);
+    renderLessons();
+    updateStats();
+}
+
+
+// ====================================
+// THỐNG KÊ
+// ====================================
+
+function updateStats() {
+
+    document.getElementById('classCount').innerText =
+        classes.length;
+
+    document.getElementById('studentCount').innerText =
+        document.querySelectorAll('#studentTable tr').length;
+
+    document.getElementById('lessonCount').innerText =
+        lessons.length;
+
+    document.getElementById('testCount').innerText =
+        tests.length;
+
+    const activity = document.getElementById('recentActivity');
+
+    const items = [
+        ...notices.map(n => ({
+            text: 'Đăng thông báo: ' + n.title,
+            date: n.id
+        })),
+        ...tests.map(t => ({
+            text: 'Tạo bài kiểm tra: ' + t.title,
+            date: t.id
+        })),
+        ...lessons.map(l => ({
+            text: 'Đăng bài giảng: ' + l.title,
+            date: l.id
+        }))
+    ].sort((a, b) => b.date - a.date).slice(0, 5);
+
+    activity.innerHTML = items.length
+        ? items.map(i => `<p style="margin:10px 0">${escapeHTML(i.text)}</p>`).join('')
+        : 'Chưa có hoạt động.';
+}
+
+
+// ====================================
+// KHỞI TẠO
+// ====================================
+
+renderClasses();
+renderNotices();
+renderTests();
+renderLessons();
+renderQuestions();
+updateStats();
+
+</script>
+
+</body>
+</html>
